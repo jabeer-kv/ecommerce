@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var dotenv=require('dotenv').config()
 var mongoose=require('mongoose');
+var connect=require('./config/dbconnect')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -21,7 +22,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/admin',express.static(path.join(__dirname, 'public')));
+app.use('/admin',express.static(path.join(__dirname, 'public/admin')));
+app.use('/users',express.static(path.join(__dirname, 'public/users')));
 app.use('/users',express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
