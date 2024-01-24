@@ -25,7 +25,7 @@ module.exports={
                         res.redirect('/users/home')
                     }
                     else{
-                        res.redirect('/signin')
+                        res.redirect('/')
                     }
                 }
             })
@@ -44,7 +44,7 @@ module.exports={
        }
 
        const result = await uhelper.datainsert(doc)
-       res.redirect('/signin')
+       res.redirect('/')
     }
        catch {
         res.redirect('/signup')
@@ -54,10 +54,8 @@ module.exports={
         res.render('users/index');
     },
     logout:(req,res)=>{
-        req.session.destroy()
-        res.redirect('/signin')
-    },
-    cart:(req,res)=>{
-        res.render('users/cart')
+        // req.session.destroy()
+        res.redirect('/')
     }
+ 
 }
