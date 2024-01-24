@@ -56,5 +56,8 @@ module.exports={
     logout:(req,res)=>{
         req.session.destroy()
         res.redirect('/signin')
+    },
+    cart:(req,res)=>{
+        res.render('users/cart')
     }
 }
