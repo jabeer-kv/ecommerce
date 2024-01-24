@@ -7,23 +7,23 @@ const userschema = new mongoose.Schema({
     email:{
         type:String,
         required:true,
-        unique:true
+        // unique:true
     },
     username:{
         type:String,
         required:true,
-        unique:true
+        // unique:true
     },
     password:{
         type:String,
         required:true,
-        validate:{
-            validator:function(v){
-                return v.length>=8
-            },
-            message:'password must be at least 8 characters long'
+        // validate:{
+        //     validator:function(v){
+        //         return v.length>=8
+        //     },
+        //     message:'password must be at least 8 characters long'
 
-        }
+        // }
     }
 
 })

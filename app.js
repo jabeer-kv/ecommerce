@@ -6,6 +6,7 @@ var logger = require('morgan');
 var dotenv=require('dotenv').config()
 var mongoose=require('mongoose');
 var connect=require('./config/dbconnect')
+var session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -25,6 +26,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/admin',express.static(path.join(__dirname, 'public/admin')));
 app.use('/users',express.static(path.join(__dirname, 'public/users')));
 app.use('/users',express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false,
+  cookie:{maxAge:60 * 60 * 24 }
+}))
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
