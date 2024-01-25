@@ -6,6 +6,7 @@ var logger = require('morgan');
 var dotenv=require('dotenv').config()
 var mongoose=require('mongoose');
 var connect=require('./config/dbconnect')
+var exphbs = require('express-handlebars')
 var session = require('express-session');
 
 var indexRouter = require('./routes/index');
@@ -18,13 +19,23 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+const hbs = exphbs.create({
+  extname: 'hbs',
+  defaultLayout: 'layout',
+  layoutsDir: path.join(__dirname, 'views/layouts'),
+  partialsDir: path.join(__dirname, 'views/partials'),
+  
+});
+app.engine('hbs', hbs.engine);
+app.set('view engine', 'hbs');
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/admin',express.static(path.join(__dirname, 'public/admin')));
-app.use('/users',express.static(path.join(__dirname, 'public/users')));
+app.use('/users',express.static(path.join(__dirname, 'public')));
 app.use('/users',express.static(path.join(__dirname, 'public')));
 
 app.use(session({
