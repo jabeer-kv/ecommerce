@@ -5,6 +5,18 @@ const productSchema=new mongoose.Schema({
         type:String,
         required:true
     },
+    category:{
+        type:String,
+        required:true
+    },
+    quantity:{
+        type:Number,
+        required:true
+    },
+    discription:{
+        type:String,
+        required:true
+    },
     price:{
         type:Number,
         required:true
@@ -15,5 +27,5 @@ const productSchema=new mongoose.Schema({
     }
 })
 
-const Product=mongoose.model('Products',productSchema)
+const product=mongoose.model('Products',productSchema)
 module.exports=product

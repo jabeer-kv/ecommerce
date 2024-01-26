@@ -1,5 +1,5 @@
 
-{{> admin_navbar}}
+{{!-- {{> admin_navbar}} --}}
 {{> admin_settings-panel}}
 {{> admin_sidebar}}
 
@@ -67,7 +67,9 @@
 <div class="form-group">
   <label class="col-md-4 control-label" for="singlebutton">Single Button</label>
   <div class="col-md-4">
+    <form action="/admin/add" method="post">
     <button id="singlebutton" name="singlebutton" class="btn btn-primary">Button</button>
+ </form>
   </div>
   </div>
 
