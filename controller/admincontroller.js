@@ -21,7 +21,7 @@ module.exports={
             price:req.body.price,
             image:req.body.image
         }
-        console.log(products)
+      
         await phelper.productinsert(products)
         res.redirect("/admin")
         

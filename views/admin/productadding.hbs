@@ -3,31 +3,42 @@
 {{> admin_sidebar}}
 
 
-<form action="/admin/add" method="post" class="form-horizontal" enctype="multipart/form-data">
+<form action="/admin/add" method="post" class="form-horizontal" >
   <center>
-    <div class="form-group">
-      <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-      <input type="text" name="name" id="name" placeholder="Your Name" />
-    </div>
-    <div class="form-group">
-      <label for="username"><i class="zmdi zmdi-email"></i></label>
-      <input type="text" name="category" id="username" placeholder="username" />
-    </div>
-    <div class="form-group">
-      <label for="email"><i class="zmdi zmdi-lock"></i></label>
-      <input type="number" name="quantity" id="email" placeholder="your email" />
-    </div>
-    <div class="form-group">
-      <label for="password"><i class="zmdi zmdi-lock-outline"></i></label>
-      <input type="text" name="discription" id="password" placeholder="password" />
-    </div>
-    <div class="form-group">
-      <label for="password"><i class="zmdi zmdi-lock-outline"></i></label>
-      <input type="price" name="price" id="password" placeholder="password" />
-    </div>
-    <div class="form-group">
-      <input type="file">
-    </div>
+  <div class="container px-5 my-5">
+        <div class="form-floating mb-3">
+            <input class="form-control" id="name" type="text" placeholder="name" data-sb-validations="required" />
+            <label for="name">name</label>
+            <div class="invalid-feedback" data-sb-feedback="name:required">name is required.</div>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="category" type="text" placeholder="category" data-sb-validations="required" />
+            <label for="category">category</label>
+            <div class="invalid-feedback" data-sb-feedback="category:required">category is required.</div>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="quantity" type="number" placeholder="quantity" data-sb-validations="required" />
+            <label for="quantity">quantity</label>
+            <div class="invalid-feedback" data-sb-feedback="quantity:required">quantity is required.</div>
+        </div>
+        <div class="form-floating mb-3">
+            <input class="form-control" id="price" type="text" placeholder="price" data-sb-validations="required" />
+            <label for="price">price</label>
+            <div class="invalid-feedback" data-sb-feedback="price:required">price is required.</div>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="file">
+        </div>
+        <div class="d-none" id="submitSuccessMessage">
+            <div class="text-center mb-3">
+                <div class="fw-bolder">Form submission successful!</div>
+                <p>To activate this form, sign up at</p>
+                <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+            </div>
+        </div>
+      
+</div>
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 
     <div class="form-group form-button">
       <input type="submit" name="signup" id="signup" class="form-submit" value="Register" />
