@@ -200,11 +200,14 @@
               </button>
               <ul class="dropdown-menu">
                 <li><button class="dropdown-item" type="button">Account</button></li>
+                {{# if users}}
                 <li>
-                  <form action="/users/logout" method="post">
-                    <button class="dropdown-item" type="button">logout</button>
-                  </form>
+                    <li><a href="/users/logout" class="dropdown-item" type="button">Logout</a></li>
                 </li>
+                {{else}}
+                <li><a href="/users/" class="dropdown-item" type="button">Login</a></li>
+
+                {{/if}}
               </ul>
             </div>
 
