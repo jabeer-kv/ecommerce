@@ -1,5 +1,7 @@
 const user = require("../models/userschema");
+const prodata=require("../models/productschema")
 const uhelper = require("../helpers/userhelper");
+const phelper=require("../helpers/producthelper")
 const bcrypt = require("bcryptjs");
 const pepper = process.env.PEPPER_SECRET;
 
@@ -64,8 +66,10 @@ module.exports = {
     res.redirect("/signup");
   },
 
-  userpage: (req, res) => {
-    res.render("users/index");
+  userpage: async (req, res) => {
+    const product= await phelper.showpro(prodata)
+
+    res.render("users/index",{product});
   },
   logout: (req, res) => {
     // req.session.destroy()

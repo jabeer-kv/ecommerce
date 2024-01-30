@@ -5,6 +5,11 @@ module.exports = {
         var ans=await product.insertMany(data)
         console.log(ans)
         return ans
+    },
+    showpro: async (data)=>{
+        var ans=await product.find().lean()
+        console.log(ans)
+        return ans
     }
 
     

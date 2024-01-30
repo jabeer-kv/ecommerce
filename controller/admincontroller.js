@@ -12,17 +12,20 @@ module.exports={
     productadd:async (req, res) => {
         console.log(req.body)
         const image=req.body.image
+
         
         const Image=req.body.image=path.basename(req.file.filename)
 
         var products={
             name:req.body.name,
             category:req.body.category,
-            quantity:req.body.avilablequantity,
+            quantity:req.body.quantity,
             description:req.body.description,
             price:req.body.price,
             image:Image
         }
+
+        console.log(products.quantity)
         
       
         await phelper.productinsert(products)
