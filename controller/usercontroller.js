@@ -75,4 +75,7 @@ module.exports = {
     // req.session.destroy()
     res.render("users/");
   },
-};
+  cartpage: (req, res) =>{
+    res.render("users/cart")
+  }
+}
