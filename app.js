@@ -46,8 +46,8 @@ app.use(session({
   cookie:{maxAge:60 * 60 * 24 }
 }))
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/index', indexRouter);
+app.use('/', usersRouter);
 app.use('/admin',adminRouter)
 
 // catch 404 and forward to error handler

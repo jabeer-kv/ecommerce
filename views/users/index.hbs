@@ -169,10 +169,10 @@
                 <li><button class="dropdown-item" type="button">Account</button></li>
                 {{# if users}}
                 <li>
-                    <li><a href="/users/logout" class="dropdown-item" type="button">Logout</a></li>
+                    <li><a href="/logout" class="dropdown-item" type="button">Logout</a></li>
                 </li>
                 {{else}}
-                <li><a href="/users/" class="dropdown-item" type="button">Login</a></li>
+                <li><a href="/signin" class="dropdown-item" type="button">Login</a></li>
 
                 {{/if}}
               </ul>
@@ -204,7 +204,7 @@
           </ul>
 
           <div class="cart text-end d-none d-lg-block dropdown">
-            <a href="/users/cart">
+            <a href="/cart">
             <button class="border-0 bg-transparent d-flex flex-column gap-2 lh-1" type="button"
               data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
               <span class="fs-6 text-muted dropdown-toggle">Your Cart total</span>
