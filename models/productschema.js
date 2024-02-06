@@ -3,7 +3,7 @@ const mongoose=require ('mongoose')
 const productSchema=new mongoose.Schema({
     name:{
         type:String,
-        // required:true
+        required:true
     },
     category:{
         type:String,
@@ -12,6 +12,10 @@ const productSchema=new mongoose.Schema({
     quantity:{
         type:Number,
         required:true
+    },
+    role:{
+        type:String,
+        default:'user'
     },
     description:{
         type:String,
@@ -25,6 +29,7 @@ const productSchema=new mongoose.Schema({
         type:String,
         required:true
     }
+    
 })
 
 const product=mongoose.model('Products',productSchema)

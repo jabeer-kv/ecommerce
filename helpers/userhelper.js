@@ -7,9 +7,9 @@ module.exports={
         return ans
     },
     finding: async (data)=>{
-        
+        console.log(data);
         var ans=await user.findOne({email:data}).lean()
-        console.log(ans)
+        // console.log(ans)
         
         return ans
         
