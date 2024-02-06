@@ -7,13 +7,13 @@ const pepper = process.env.PEPPER_SECRET;
 
 module.exports = {
   signin: (req, res) => {
-    //    if (req.session){
-    //     //    res.redirect('/users/home')
+      //  if (req.session){
+      //      res.redirect('/')
 
-    //    }
-    //    else{
-    //     res.render('users/signin')
-    //    }
+      //  }
+      //  else{
+      //   res.render('/signin')
+      //  }
     res.render("users/signin");
   },
   logindata: async (req, res) => {
@@ -21,12 +21,19 @@ module.exports = {
     const password=req.body.password
     const email=req.body.email
     const user= await uhelper.finding(email)
+
+    if (!user){
+      res.redirect("/signin")
+    }
+
+    else{
     const pass=user.password
-    console.log(pass);
-    // console.log(password)
-    // console.log(user.password);
     const orgpassword= await bcrypt.compare(password,pass)
-    console.log(orgpassword)
+    req.session.userId=user.id
+    req.session.loggedIn=true
+   console.log("user logged in");
+   res.redirect("/") 
+  }
     
   },
   signup: (req, res) => {
