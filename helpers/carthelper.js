@@ -6,17 +6,22 @@ module.exports={
         var product= await product.findOne(data)
         return product
     },
-    _addcart: async (data, userid) => {
+    addcart: async (data, userid) => {
         const user = await user.findOne({ _id: userid });
-        ProductID = data.productId;
+        product = data.productId;
         quantiy = data.quantiy;
         price = data.totalprice;
     },
-    getitemscart: async (data) => {
-        const result = await cart
-          .findOne({ user: data })
-          .populate("items.product")
-          .lean();
-        return result;
+    cartcount: async (data) => {
+        const result = await cart.findOne({ user: data })
+          if (result){
+            const count = result.items.length
+            return count
+          }
+          else{
+            return 0
+          }
+       
+        
     }
 }

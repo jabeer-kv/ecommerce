@@ -3,7 +3,7 @@ const prodata = require("../models/productschema")
 const uhelper = require("../helpers/userhelper");
 const phelper = require("../helpers/producthelper")
 const bcrypt = require("bcrypt");
-const pepper = process.env.PEPPER_SECRET;
+
 
 module.exports = {
   signin: (req, res) => {
@@ -31,7 +31,8 @@ module.exports = {
 
       const pass = user.password
       const orgpassword = await bcrypt.compare(password, pass)
-      req.session.userId = user.id
+      req.session.userId = user._id
+      console.log(req.session.userId)
       req.session.loggedIn = true
       if (user.role == 'admin') {
         res.redirect("admin/")
