@@ -34,6 +34,7 @@ module.exports = {
       req.session.userId = user._id
       console.log(req.session.userId)
       req.session.loggedIn = true
+     
       if (user.role == 'admin') {
         res.redirect("admin/")
         console.log("admin logged in");
@@ -81,7 +82,7 @@ module.exports = {
   },
   logout: (req, res) => {
     req.session.destroy()
-    res.render("users/");
+    res.render("users/signin");
   }
   
 }
