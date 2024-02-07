@@ -39,6 +39,14 @@ module.exports = {
        const user=await ahelper.showusers()
        
         res.render('admin/users',{user})
+    },
+    deleteproduct: async (req, res) => {
+        const deleted = await phelper.delete({ _id: req.body.delete })
+        res.send(deleted)
+      },
+    productpage:async (req, res) => {
+        const product=await ahelper.showproduct()
+        res.render('admin/showproduct', {product})
     }
     
 }

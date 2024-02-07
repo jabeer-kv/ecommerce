@@ -10,7 +10,8 @@ module.exports = {
         var ans=await product.find().lean()
         console.log(ans)
         return ans
-    }
+    },
+    
 
     
     

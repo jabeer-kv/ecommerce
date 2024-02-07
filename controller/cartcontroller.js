@@ -2,7 +2,7 @@ const Chelper = require("../helpers/carthelper");
 const Phelper = require("../helpers/producthelper");
 module.exports = {
   cartpage: async (req, res) => {
-    // const user = req.sesson.user.name;
+    const user = req.sesson.user.name;
     try {
       const userid = req.sesson.userid;
       const product = await Chelper.addcart(userid);

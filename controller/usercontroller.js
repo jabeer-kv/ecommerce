@@ -28,10 +28,11 @@ module.exports = {
     }
 
     else {
-
+      
       const pass = user.password
       const orgpassword = await bcrypt.compare(password, pass)
       req.session.userId = user._id
+      req.session.name=user.name
       console.log(req.session.userId)
       req.session.loggedIn = true
      
