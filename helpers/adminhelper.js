@@ -1,5 +1,6 @@
 const product = require('../models/productschema');
 const users= require('../models/userschema');
+const cart=require('../models/cartschema')
 module.exports={
     showusers: async (data)=>{
         var ans=await users.find({role:'user'}).lean()
@@ -11,8 +12,9 @@ module.exports={
          return dele
     },
     showproduct: async (data)=>{
-            const show= await product.find().lean
+            const show= await product.find(data)
             return show
-    }
+    },
+   
     
 }

@@ -10,7 +10,8 @@ const userschema = new mongoose.Schema({
         // unique:true
     },
     role:{
-        default:"user"
+       type:String,
+       default:'user'
     },
     username:{
         type:String,

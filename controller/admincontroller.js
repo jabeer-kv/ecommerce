@@ -47,6 +47,6 @@ module.exports = {
     productpage:async (req, res) => {
         const product=await ahelper.showproduct()
         res.render('admin/showproduct', {product})
-    }
-    
+    },
+   
 }
