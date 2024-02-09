@@ -44,9 +44,15 @@ module.exports = {
         const deleted = await phelper.delete({ _id: req.body.delete })
         res.send(deleted)
       },
-    productpage:async (req, res) => {
+    Productpage:async (req, res) => {
         const product=await ahelper.showproduct()
         res.render('admin/showproduct', {product})
     },
+    editpage:async (req,res)=>{
+       const  Productid=req.params.id
+        const data= await ahelper.findproductbyid(Productid)
+        res.render('admin/productedit',{data:data})
+    },
+   
    
 }

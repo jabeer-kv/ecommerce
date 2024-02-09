@@ -1,0 +1,51 @@
+{{> admin_navbar}}
+
+
+
+<form action="/admin/update/{{data._id}}" method="post" enctype="multipart/form-data" >
+  <center>
+  <div class="container px-5 my-5">
+        <div class="form-floating mb-3">
+            <input class="form-control" name="name" type="text" placeholder="name" data-sb-validations="required" value="{{data.name}}"/>
+            <label for="name">name</label>
+            <div class="invalid-feedback" data-sb-feedback="name:required">name is required.</div>
+        </div>
+        <div class="form-floating mb-3">
+            <input value="{{data.category}}" class="form-control" name="category" type="text" placeholder="category" data-sb-validations="required" />
+            <label for="category">category</label>
+            <div class="invalid-feedback" data-sb-feedback="category:required">category is required.</div>
+        </div>
+        <div class="form-floating mb-3">
+            <input value="{{data.quantity}}" class="form-control" name="quantity" type="number" placeholder="quantity" data-sb-validations="required" />
+            <label for="quantity">quantity</label>
+            <div class="invalid-feedback" data-sb-feedback="quantity:required">quantity is required.</div>
+        </div>
+         <div class="form-floating mb-3">
+            <input  value="{{data.discription}}" class="form-control" name="description" type="text" placeholder="quantity" data-sb-validations="required" />
+            <label for="quantity">description</label>
+            <div class="invalid-feedback" data-sb-feedback="quantity:required">quantity is required.</div>
+        </div>
+        <div class="form-floating mb-3">
+            <input  value="{{data.price}}" class="form-control" name="price" type="text" placeholder="price" data-sb-validations="required" />
+            <label for="price">price</label>
+            <div class="invalid-feedback" data-sb-feedback="price:required">price is required.</div>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="file" name="image" >
+        </div>
+        <div class="d-none" id="submitSuccessMessage">
+            <div class="text-center mb-3">
+                <div class="fw-bolder">Form submission successful!</div>
+                <p>To activate this form, sign up at</p>
+                <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+            </div>
+        </div>
+      
+</div>
+
+    <div class="form-group form-button">
+      <input type="submit" name="signup" id="signup" class="form-submit" accept="image/*" />
+    </div>
+  </center>
+</form>
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>

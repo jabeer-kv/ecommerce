@@ -28,10 +28,10 @@
         <td>{{this.name}}</td>
         <td>{{this.category}}</td>
         <td>{{this.price}}</td>
-        <td>{{this.image}}</td>
+      <td><img src="../uploads/{{this.image}}" alt="product image" class="img-fluid"></td>
         <td>
-          <button class="btn btn-primary btn-sm">Edit</button>
-          <button class="btn btn-danger btn-sm">Delete</button>
+        <a type="button" class="btn btn-primary btn-sm" href="/admin/edit">Edit</a> 
+         <a type="button" class="btn btn-danger btn-sm">Delete</a>
         </td>
       </tr>
     

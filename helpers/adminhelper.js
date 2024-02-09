@@ -12,9 +12,15 @@ module.exports={
          return dele
     },
     showproduct: async (data)=>{
-            const show= await product.find(data)
+            const show= await product.findOne(data).lean()
             return show
     },
+    findproductbyid: async (data)=>{
+        const products = await product.findOne(data).lean()
+        return products 
+    },
+    
+
    
     
 }
