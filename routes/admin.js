@@ -10,8 +10,8 @@ router.post('/add',Upload.single('image'),productadd);
 router.get('/users',userspage)
 router.post('/delete',deleteproduct)
 router.get('/products',Productpage)
-router.get('/edit/:productId',editpage)
-// router.post('/update/:productId',updateproduct)
+router.get('/edit/:id',editpage)
+router.post('/update/:id',updateproduct)
 
 
 module.exports = router;

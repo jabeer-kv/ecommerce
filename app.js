@@ -36,8 +36,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/admin',express.static(path.join(__dirname, 'public/admin')));
+// app.use('/admin',express.static(path.join(__dirname, 'public/admin/edit')));
 app.use('/users',express.static(path.join(__dirname, 'public')));
 app.use('/users',express.static(path.join(__dirname, 'public')));
+app.use('/admin/edit',express.static(path.join(__dirname, 'public/admin')));
+
 
 app.use(session({
   secret: 'keyboard cat',

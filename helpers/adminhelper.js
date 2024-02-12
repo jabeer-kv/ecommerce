@@ -11,15 +11,8 @@ module.exports={
             const dele= await product.findOneAndDelete(data)
          return dele
     },
-    showproduct: async (data)=>{
-            const show= await product.findOne(data).lean()
-            return show
-    },
-    findproductbyid: async (data)=>{
-        const products = await product.findOne(data).lean()
-        return products 
-    },
-    
+   
+
 
    
     

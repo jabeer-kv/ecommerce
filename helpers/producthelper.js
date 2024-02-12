@@ -11,6 +11,16 @@ module.exports = {
         console.log(ans)
         return ans
     },
+    findproductbyid: async (data)=>{
+        const products = await product.findOne({_id:data}).lean()
+        return products 
+    },
+    showproduct: async (data)=>{
+        const show= await product.find(data).lean()
+        return show
+},
+    
+    
     
 
     

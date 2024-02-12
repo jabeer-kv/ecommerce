@@ -3,7 +3,7 @@ const Phelper = require("../helpers/producthelper")
 const Uhelper=require("../helpers/userhelper");
 module.exports = {
   cartpage: async (req, res) => {
-    const user = req.sesson.user.name;
+    const user = req.sesson.user;
     try {
       const userid = req.sesson.userid;
       const product = await Chelper.addcart(userid);

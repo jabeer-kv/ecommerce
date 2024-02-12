@@ -45,14 +45,20 @@ module.exports = {
         res.send(deleted)
       },
     Productpage:async (req, res) => {
-        const product=await ahelper.showproduct()
+        const product=await phelper.showproduct()
         res.render('admin/showproduct', {product})
     },
     editpage:async (req,res)=>{
        const  Productid=req.params.id
-        const data= await ahelper.findproductbyid(Productid)
+       console.log(Productid);
+        const data= await phelper.findproductbyid(Productid)
+        console.log("hhuygyyfr")
         res.render('admin/productedit',{data:data})
-    },
+    }, 
+    updateproduct: async (req, res) => {
+        const updated = await phelper.update({ _id: req.body.update }, req.body)
+        res.send(updated)
+    }
    
    
 }
