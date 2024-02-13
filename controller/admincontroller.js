@@ -60,27 +60,21 @@ module.exports = {
         const productId = req.params.id
         const product = await phelper.findproductbyid(productId)
         console.log(product);
-        // var image=product.image
-        // const path="./public/uploads/"+image
-        // fs.unlink(path,(err)=>{
-
-        // })
-    
-        const data= {
+        const data = {
             name: req.body.name,
             category: req.body.category,
             quantity: req.body.quantity,
             description: req.body.description,
             price: req.body.price,
-            
+
         }
-        await phelper.update(productId,data)
-        res.redirect("/admin/products")
-},
+        await phelper.update(productId, data)
+        res.render("admin/showproduct")
+    },
     logout: (req, res) => {
         req.session.destroy()
         res.render("users/signin");
     },
-   
-   
+
+
 }
