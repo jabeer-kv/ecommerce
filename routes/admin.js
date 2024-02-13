@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var {adminpage,productadd,productpage,userspage,deleteproduct,Productpage,editpage,updateproduct}=require('../controller/admincontroller')
+var {adminpage,productadd,productpage,userspage,deleteproduct,Productpage,editpage,updateproduct,logout}=require('../controller/admincontroller')
 const Upload=require('../middleware/multer')
 
 /* GET home page. */
@@ -12,6 +12,7 @@ router.post('/delete',deleteproduct)
 router.get('/products',Productpage)
 router.get('/edit/:id',editpage)
 router.post('/update/:id',updateproduct)
+router.get('/logout',logout)
 
 
 module.exports = router;

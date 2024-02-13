@@ -1,4 +1,4 @@
-{{> admin_navbar}}
+
 
 {{!-- {{> admin_settings-panel}}
 {{> admin_sidebar}} --}}
@@ -12,6 +12,8 @@
 <body>
 
 <div class="container mt-5">
+  {{>navbar}}
+   
   <h2>User Data</h2>
   <table class="table table-striped">
   
@@ -30,7 +32,7 @@
         <td>{{this.email}}</td>
         <td>{{this.username}}</td>
         <td>
-          <button class="btn btn-primary btn-sm">Edit</button>
+          <button class="btn btn-primary btn-sm">block</button>
           <button class="btn btn-danger btn-sm">Delete</button>
         </td>
       </tr>
@@ -38,6 +40,7 @@
     {{/each}}
       <!-- Add more rows for additional users -->
     </tbody>
+   
   </table>
 </div>
 
