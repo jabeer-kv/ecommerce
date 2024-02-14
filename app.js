@@ -40,6 +40,7 @@ app.use('/admin',express.static(path.join(__dirname, 'public/admin')));
 app.use('/users',express.static(path.join(__dirname, 'public')));
 app.use('/users',express.static(path.join(__dirname, 'public')));
 app.use('/admin/edit',express.static(path.join(__dirname, 'public/admin')));
+app.use('/admin/products',express.static(path.join(__dirname, 'public/admin')));
 
 
 app.use(session({

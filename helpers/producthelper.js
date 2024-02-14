@@ -20,9 +20,25 @@ module.exports = {
         return show
     },
     update: async (id,data) => {
-        const ans = await product.findOneAndUpdate({ _id: id }, { $set: data }, { new: true })
-
+       
+        const ans = await product.findByIdAndUpdate({ _id: id }, { $set: 
+    {
+        name: data.name,
+        category: data.category,
+        quantity: data.quantity,
+        description: data.description,
+        price: data.price,
+        image: data.image
+    }
+        }, { new: true }).lean()
+        console.log(ans)
         return ans
+        
+    },
+    deleting: async (id) => {
+        const deleted = await product.findByIdAndDelete({ _id: id }).lean()
+        console.log(deleted)
+        return deleted
     }
 
     }

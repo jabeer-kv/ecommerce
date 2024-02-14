@@ -42,8 +42,11 @@ module.exports = {
         res.render('admin/users', { user })
     },
     deleteproduct: async (req, res) => {
-        const deleted = await phelper.delete({ _id: req.body.delete })
-        res.send(deleted)
+        const id=req.params.id
+        console.log(id)
+        const deleted = await phelper.deleting(id)
+        console.log("product deleted");
+        res.redirect("/admin/products")
     },
     Productpage: async (req, res) => {
         const product = await phelper.showproduct()
@@ -59,17 +62,20 @@ module.exports = {
     updateproduct: async (req, res) => {
         const productId = req.params.id
         const product = await phelper.findproductbyid(productId)
+        image=product.image
+        const imagepath='../public/uploads'+image
         console.log(product);
-        const data = {
+        const data = { 
             name: req.body.name,
             category: req.body.category,
             quantity: req.body.quantity,
             description: req.body.description,
             price: req.body.price,
+            // image:req.file.filename
 
         }
         await phelper.update(productId, data)
-        res.render("admin/showproduct")
+        res.redirect("/admin/products")
     },
     logout: (req, res) => {
         req.session.destroy()
