@@ -7,7 +7,7 @@ module.exports = {
     return product
   },
   addcart: async (data, userid) => {
-    const user = await user.findOne({ _id: userid });
+    const user = await users.findOne({ _id: userid });
     product = data.productId;
     quantiy = data.quantiy;
     price = data.totalprice;
