@@ -1,6 +1,6 @@
 const Chelper = require("../helpers/carthelper");
 const Phelper = require("../helpers/producthelper")
-const Uhelper = require("../helpers/userhelper");
+const Uhelper = require("../models/userschema")
 module.exports = {
     cartpage: async (req, res) => {
       // const user = req.session.user;
@@ -8,20 +8,22 @@ module.exports = {
         const userid = req.session.userid;
         const product = await Chelper.addcart(userid);
         const count = await Chelper.cartcount(product);
-        const users = req.session.loggedIn
+        
         console.log(count, product);
         const isUser = req.session.loggedIn;
-        if (product,users) {
+    
+        if (product && isUser) {
+          
           total = product.totalprice + 50;
-          res.render('users/cart', { product, count, isUser,users });
-        } else {
+          res.render('users/cart', { product, count, isUser });
+      } else {
           res.render('users/cart', { isUser });
-        }
+      }
       }
        catch (error) {
         console.error(error);
       }
-      // res.render("users/cart",{users});
+      
     },
     addtocart: async (req, res) => {
       var cartquantity=0
@@ -44,7 +46,7 @@ module.exports = {
       }
       if(cart){
         if(extproduct){
-          await Chelper.cartupdate(cartitem,userid)
+          await Chelper.cartupdate({cartitem},userid)
              res.json(count+1)
         }
         else{

@@ -2,16 +2,16 @@ const product = require('../models/productschema');
 const users = require('../models/userschema');
 const cart = require('../models/cartschema')
 module.exports = {
-  cartadd: async (data) => {
-    var product = await product.findOne(data)
-    return product
-  },
+  // cartadd: async (data) => {
+  //   return product
+  // },
   addcart: async (data, userid) => {
+ 
+    const products = await product.findOne(data);
     const user = await users.findOne({ _id: userid });
-    product = data.productId;
-    quantiy = data.quantiy;
-    price = data.totalprice;
+
   },
+  
   cartcount: async (data) => {
     const result = await cart.findOne({ user: data })
     if (result) {
@@ -27,12 +27,12 @@ module.exports = {
     return exist
   },
   proext: async (userid, productid) => {
-    const product = await cart.findOne({ _id: productid })
-    return product
+    const pro = await cart.findOne({ _id: productid })
+    return pro
   },
   finding: async (productid) => {
-    const product = await cart.findOne({ _id: productid }).lean()
-    return product
+    const prod = await cart.findOne({ _id: productid }).lean()
+    return prod
   },
   countitems: async (userid) => {
     const result = await cart.findOne({ user: userid });
@@ -45,16 +45,17 @@ module.exports = {
     } else return 0;
   },
   cartupdate: async (data, userid) => {
-    const user = await user.findOne({ _id: userid });
-    product = data.productId;
-    quantiy = data.quantiy;
-    price = data.totalprice;
+    const user = await cart.findOne({ user: userid });
+    const produc = data.product;
+    const quantity = data.quantity;
+    const price = data.totalprice;
     const result = await cart.findOneAndUpdate(
-      { user: userid },
-      { $set: { "items.$.quantiy": 2 } },
+      { user: userid, "items.product": product },
+      { $set: { "items.$.quantity": quantity, "items.$.price": price } },
       { new: true }
     );
     return result;
-  }
+  },
+  
 
 }

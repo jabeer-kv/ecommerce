@@ -50,30 +50,31 @@ module.exports = {
     },
     Productpage: async (req, res) => {
         const product = await phelper.showproduct()
+        console.log(product[0].image)
         res.render('admin/showproduct', { product })
     },
     editpage: async (req, res) => {
         const Productid = req.params.id
         console.log(Productid);
         const data = await phelper.findproductbyid(Productid)
-        console.log("hhuygyyfr")
         res.render('admin/productedit', { data: data })
     },
     updateproduct: async (req, res) => {
         const productId = req.params.id
         const product = await phelper.findproductbyid(productId)
+        console.log("fg",req.body)
         image=product.image
         const imagepath='../public/uploads'+image
-        console.log(product);
         const data = { 
             name: req.body.name,
             category: req.body.category,
             quantity: req.body.quantity,
             description: req.body.description,
             price: req.body.price,
-            // image:req.file.filename
-
+            image:req.file.filename
+            
         }
+        console.log("f",data)
         await phelper.update(productId, data)
         res.redirect("/admin/products")
     },

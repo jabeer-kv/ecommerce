@@ -11,7 +11,7 @@ router.get('/users',userspage)
 router.post('/delete',deleteproduct)
 router.get('/products',Productpage)
 router.get('/edit/:id',editpage)
-router.post('/update/:id',updateproduct)
+router.post('/update/:id',Upload.single('image'),updateproduct)
 router.get('/logout',logout)
 
 
