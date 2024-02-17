@@ -48,7 +48,7 @@ app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: false,
-  cookie:{maxAge:60 * 60 * 24 }
+  cookie:{maxAge: 20 * 60 * 1000 }
 }))
 
 app.use('/index', indexRouter);

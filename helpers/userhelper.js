@@ -13,5 +13,21 @@ module.exports={
         
         return ans
         
+    },
+    finduser:async(data)=>{
+        const ans = await user.findOne({ _id:data }).lean();
+        return ans
+    },
+    updateuser:async(data,userid)=>{
+        console.log(userid);
+        const ans = await user.findOneAndUpdate({_id:userid},{
+            $set:{
+                name:data.name,
+                email:data.email,
+                username:data.username
+            }
+        })
+        console.log(ans)
+        return ans
     }
 }

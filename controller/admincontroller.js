@@ -62,7 +62,7 @@ module.exports = {
     updateproduct: async (req, res) => {
         const productId = req.params.id
         const product = await phelper.findproductbyid(productId)
-        console.log("fg",req.body)
+        console.log(req.body)
         image=product.image
         const imagepath='../public/uploads'+image
         const data = { 

@@ -84,6 +84,26 @@ module.exports = {
   logout: (req, res) => {
     req.session.destroy()
     res.render("users/signin");
+  },
+  edit: async (req,res)=>{
+    const users=req.session.userId
+    console.log(users);
+    const data=await uhelper.finduser(users)
+    // console.log(user,user.name,user.email);
+    res.render("users/useredit",{data,users})
+  },
+  updateuser: async (req,res)=>{
+    const users=req.session.userId
+    const user=await uhelper.finduser(users)
+    console.log(user);
+    const data={
+      name:req.body.name,
+      email:req.body.email,
+      username:req.body.username
+    }
+    console.log(data);
+    // const user=await uhelper.updateuser(users,data)
+    res.render("users/useredit",{data,users})
   }
   
 }
