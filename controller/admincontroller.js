@@ -43,7 +43,7 @@ module.exports = {
     },
     deleteproduct: async (req, res) => {
         const id=req.params.id
-        console.log(id)
+        console.log("sdsfdsgs",id)
         const deleted = await phelper.deleting(id)
         console.log("product deleted");
         res.redirect("/admin/products")

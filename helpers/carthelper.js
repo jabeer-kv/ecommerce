@@ -30,8 +30,8 @@ module.exports = {
     const pro = await cart.findOne({ _id: productid })
     return pro
   },
-  finding: async (productid) => {
-    const prod = await cart.findOne({ _id: productid }).lean()
+  finding: async (data) => {
+    const prod = await cart.findOne({ _id: data }).lean()
     return prod
   },
   countitems: async (userid) => {
@@ -56,6 +56,16 @@ module.exports = {
     );
     return result;
   },
+  cartpush: async (data, userid) => {
+    async (userid, proid, cartItem) => {
+      var price = await product.finddata(proid);
   
-
-}
+      var totprice = cartItem.quantity * price.price;
+      value = {
+        user: userid,
+        items: [cartItem],
+        totalPrice: totprice,
+      }
+  }
+  await cart.insertMany(value);
+},}
