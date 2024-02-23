@@ -27,60 +27,31 @@ module.exports = {
       }
       
     },
-    addtocart: async (req, res) => {
-      console.log("kfdjhk");
-      var cartquantity=0
-      const productid= req.params.id
-      const userid=req.session.userId
-      const product = await Phelper.findproductbyid(productid)
-      // const price = product.price
-      console.log(product);
-      console.log(userid);
-
-      try {
-      const arrayItems = {
+addtocart: async (req, res) => {
+    try {
+      const productid = req.params.id;
+      const userid = req.session.userid;
+      
+    
+      const product = await Phelper.findproductbyid(productid);
+     
+      const cartItem = {
         productid: productid,
         quantity: 1,
-        // price:price,
-      }
-      await Chelper.cartpush(arrayItems, userid);
+        product: product,
+      };
+      console.log(cartItem);
 
-      res.redirect("/users/cart");
+      await Chelper.cartpush(cartItem, userid);
+
+      res.redirect("/cart");
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Server error' });
-
     }
-      // const cart = await Chelper.existcart(userid)
-      // const extproduct=await Chelper.proext(userid,productid)
-
-    //   if(extproduct){
-    //     var founditem=extproduct.items.find(item => item.Phelper.tostring()==productid);
-    //     var cartquantity=founditem.quantity
-    //   }
-    //   const productqty=await Chelper.finding(productid)
-    //   if (productqty.quantity>cartquantity){
-    //     const quantity=req.query.quantity || 1
-    //     const cartitem={
-    //       product:productid,
-    //       quantity:quantity
-    //     }
-    //     count=await Chelper.countitems(userid)
-    //   }
-    //   if(cart){
-    //     if(extproduct){
-    //       await Chelper.cartupdate({cartitem},userid)
-    //          res.json(count+1)
-    //     }
-    //     else{
-    //       await Chelper.pushitem(userid,cartitem)
-    //       res.json(count + 1)
-    //     }
-
-    //   }
-    // }
   }
-}
+
+  }
 
 
 

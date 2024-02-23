@@ -56,16 +56,32 @@ module.exports = {
     );
     return result;
   },
-  cartpush: async (data, userid) => {
-    async (userid, proid, cartItem) => {
-      var price = await product.finddata(proid);
-  
-      var totprice = cartItem.quantity * price.price;
-      value = {
-        user: userid,
-        items: [cartItem],
-        totalPrice: totprice,
+  cartpush: async (cartItem, userid) => {
+    try {
+      // Find the user's cart or create a new one if it doesn't exist
+      let userCart = await cart.findOne({ userid });
+
+      if (!userCart) {
+        userCart = new cart({ userid, items: [] });  // Use the 'cart' model, not 'CartModel'
       }
-  }
-  await cart.insertMany(value);
-},}
+
+      // Check if the product is already in the cart
+      const existingItemIndex = userCart.items.findIndex(item => item.productid === cartItem.productid);
+
+      if (existingItemIndex !== -1) {
+        // If the product is already in the cart, update the quantity
+        userCart.items[existingItemIndex].quantity += cartItem.quantity;
+      } else {
+        // If the product is not in the cart, add it
+        userCart.items.push(cartItem);
+      }
+
+      // Save the updated cart
+      await userCart.save();
+    } catch (error) {
+      console.error(error);
+      throw new Error('Error adding item to cart');
+    }
+  },
+
+}
