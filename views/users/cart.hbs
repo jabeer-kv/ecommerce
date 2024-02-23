@@ -1,50 +1,5 @@
-{{!-- <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart"
-    aria-labelledby="My Cart">
-    <div class="offcanvas-header justify-content-center">
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        <div class="order-md-last">
-            <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <span class="text-primary">Your cart</span>
-                <span class="badge bg-primary rounded-pill">3</span>
-            </h4>
-            <ul class="list-group mb-3">
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                    <div>
-                        <h6 class="my-0">Growers cider</h6>
-                        <small class="text-body-secondary">Brief description</small>
-                    </div>
-                    <span class="text-body-secondary">$12</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                    <div>
-                        <h6 class="my-0">Fresh grapes</h6>
-                        <small class="text-body-secondary">Brief description</small>
-                    </div>
-                    <input id="form1" min="0" name="quantity" value="2" type="number"
-                        class="form-control form-control-sm" style="width: 50px;" />
-                    <span class="text-body-secondary">$8</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between lh-sm">
-                    <div>
-                        <h6 class="my-0">Heinz tomato ketchup</h6>
-                        <small class="text-body-secondary">Brief description</small>
-                    </div>
-                    <span class="text-body-secondary">$5</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between">
-                    <span>Total (INR)</span>
-                    <strong>$20</strong>
-                </li>
-            </ul>
-
-            <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
-        </div>
-    </div>
-</div> --}}
-<style>a
-    body {
+<style>
+    a body {
         background: #ddd;
         min-height: 100vh;
         vertical-align: middle;
@@ -59,7 +14,13 @@
     }
 
     .card {
-        {{!-- margin: auto; --}}
+            {
+                {
+                !-- margin: auto;
+                --
+            }
+        }
+
         max-width: 950px;
         width: 90%;
         box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -139,7 +100,7 @@
         font-size: 0.7rem;
     }
 
-    
+
 
     .back-to-shop {
         margin-top: 4.5rem;
@@ -204,9 +165,15 @@
         color: white;
     }
 
-    {{!-- a {
-        color: black;
-    } --}}
+        {
+            {
+            !-- a {
+                color: black;
+            }
+
+            --
+        }
+    }
 
     a:hover {
         color: black;
@@ -220,8 +187,8 @@
         background-position-y: center;
     }
 </style>
-
 {{> user_header}}
+
 <div class="container mt-10">
     <div class="card">
         <div class="row">
@@ -231,34 +198,38 @@
                         <div class="col">
                             <h4><b>Shopping Cart</b></h4>
                         </div>
-                        <div class="col align-self-center text-right text-muted">3 items</div>
-                    </div>
-                    {{#each cartitems}}
-                </div>
-                <div class="row border-top border-bottom">
-                    <div class="row main align-items-center">
-                        <div class="col-2"><img  style="  width: 3.5rem;"class="img-fluid" src="https://i.imgur.com/1GrakTl.jpg"></div>
-                        <div class="col">
-                            <div class="row text-muted">{{this.name}}</div>
-                            <div class="row">{{this.category}}</div>
-                        </div>
-                        <div class="col">
-                            <a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a>
-                        </div>
-                        <div class="col">&euro; {{this.price}}<span class="close">&#10005;</span></div>
+                        <div class="col align-self-center text-right text-muted">{{cart.items.length}} items</div>
                     </div>
                 </div>
+                {{#if cart.items.length}}
+                    {{#each cart.items}}
+                        <div class="row main align-items-center">
+                            <div class="col-2"><img style="width: 3.5rem;" class="img-fluid" src="{{this.product.imageSrc}}"></div>
+                            <div class="col">
+                                <div class="row text-muted">{{this.product.name}}</div>
+                                <div class="row">{{this.product.category}}</div>
+                            </div>
+                            <div class="col">
+                                <a href="#">-</a><a href="#" class="border">{{this.quantity}}</a><a href="#">+</a>
+                            </div>
+                            <div class="col">&euro; {{this.product.price}}<span class="close">&#10005;</span></div>
+                        </div>
+                    {{/each}}
+                {{else}}
+                    <p>No items in the cart.</p>
+                {{/if}}
 
                 <div class="back-to-shop"><a href="/">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
             </div>
+
             <div class="col-md-4 summary">
                 <div>
                     <h5><b>Summary</b></h5>
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col" style="padding-left:0;">ITEMS 3</div>
-                    <div class="col text-right">&euro; 132.00</div>
+                    <div class="col" style="padding-left:0;">ITEMS {{cart.items.length}}</div>
+                    <div class="col text-right">&euro; {{totalPrice}}</div>
                 </div>
                 <form>
                     <p>SHIPPING</p>
@@ -268,12 +239,10 @@
                 </form>
                 <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                     <div class="col">TOTAL PRICE</div>
-                    <div class="col text-right">&euro; 137.00</div>
+                    <div class="col text-right">&euro; {{totalPrice}}</div>
                 </div>
-                {{/each}}
                 <a class="btnn" href="/checkout">CHECKOUT</a>
             </div>
         </div>
     </div>
-
 </div>

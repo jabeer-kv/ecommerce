@@ -2,13 +2,13 @@ const product = require('../models/productschema');
 const users = require('../models/userschema');
 const cart = require('../models/cartschema')
 module.exports = {
-  // cartadd: async (data) => {
-  //   return product
-  // },
-  addcart: async (data, userid) => {
- 
-    const products = await product.findOne(data);
-    const user = await users.findOne({ _id: userid });
+
+    addcart: async (userid,data) => {
+    // console.log(userid);
+    const user = await users.findOne({_id:userid}).lean();
+    const products = await product.findOne({_id:data});
+    console.log(user,products);
+    return {products,user}
 
   },
   
@@ -61,8 +61,11 @@ module.exports = {
       // Find the user's cart or create a new one if it doesn't exist
       let userCart = await cart.findOne({ userid });
 
+      console.log(userCart);
+
       if (!userCart) {
-        userCart = new cart({ userid, items: [] });  // Use the 'cart' model, not 'CartModel'
+        const userCart = new Cart({ userid, items: [cartItem] });
+      await userCart.save(); // Use the 'cart' model, not 'CartModel'
       }
 
       // Check if the product is already in the cart
