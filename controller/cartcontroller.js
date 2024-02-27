@@ -55,7 +55,7 @@ module.exports = {
       await Chelper.removeItem(userId, productId);
   
       // Redirect or send a response as needed
-      res.redirect('/cart'); // Redirect to the cart page, adjust the URL as needed
+      res.redirect('/cart'); 
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Server error' });
