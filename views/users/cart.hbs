@@ -178,14 +178,19 @@
     a:hover {
         color: black;
         text-decoration: none;
+    },
+    .close {
+        font-size: 56 rem; /* Adjust the size as needed */
+        margin-left: auto;
     }
-
     #code {
         background-image: linear-gradient(to left, rgba(255, 255, 255, 0.253), rgba(255, 255, 255, 0.185)), url("https://img.icons8.com/small/16/000000/long-arrow-right.png");
         background-repeat: no-repeat;
         background-position-x: 95%;
         background-position-y: center;
     }
+<style>
+    /* ... (your existing styles) ... */
 </style>
 {{> user_header}}
 
@@ -202,21 +207,21 @@
                     </div>
                 </div>
                 {{#if cart.items.length}}
-                    {{#each cart.items}}
-                        <div class="row main align-items-center">
-                            <div class="col-2"><img style="width: 3.5rem;" class="img-fluid" src="{{this.product.imageSrc}}"></div>
-                            <div class="col">
-                                <div class="row text-muted">{{this.product.name}}</div>
-                                <div class="row">{{this.product.category}}</div>
-                            </div>
-                            <div class="col">
-                                <a href="#">-</a><a href="#" class="border">{{this.quantity}}</a><a href="#">+</a>
-                            </div>
-                            <div class="col">&euro; {{this.product.price}}<span class="close">&#10005;</span></div>
-                        </div>
-                    {{/each}}
+                  {{#each cart.items}}
+                    <div class="row main align-items-center">
+                      <div class="col-2"><img style="width: 3.5rem;" class="img-fluid" src="/uploads/{{this.product.image}}"></div>
+                      <div class="col">
+                        <div class="row text-muted">{{this.product.name}}</div>
+                        <div class="row">{{this.product.category}}</div>
+                      </div>
+                      <div class="col">
+                        <a href="#">-</a><a href="#" class="border">{{this.quantity}}</a><a href="#">+</a>
+                      </div>
+<div class="col">&euro; {{this.product.price}}<span class="close" <a href="/removeItem/{{this.product._id}}"></a>&#10005;</span></div>                    </div>
+                  {{/each}}
                 {{else}}
-                    <p>No items in the cart.</p>
+                  <!-- Display a message when the cart is empty -->
+                  <p>No items in the cart.</p>
                 {{/if}}
 
                 <div class="back-to-shop"><a href="/">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
@@ -227,22 +232,39 @@
                     <h5><b>Summary</b></h5>
                 </div>
                 <hr>
-                <div class="row">
-                    <div class="col" style="padding-left:0;">ITEMS {{cart.items.length}}</div>
-                    <div class="col text-right">&euro; {{totalPrice}}</div>
-                </div>
-                <form>
-                    <p>SHIPPING</p>
-                    <select>
-                        <option class="text-muted">Standard-Delivery- &euro;5.00</option>
-                    </select>
-                </form>
-                <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                    <div class="col">TOTAL PRICE</div>
-                    <div class="col text-right">&euro; {{totalPrice}}</div>
-                </div>
-                <a class="btnn" href="/checkout">CHECKOUT</a>
+                {{#if cart.items.length}}
+                  <!-- Display summary only if there are items in the cart -->
+                  {{!-- <div class="row">
+                      <div class="col" style="padding-left:0;">ITEMS {{cart.items.length}}</div>
+                      <div class="col text-right">&euro; {{totalPrice}}</div>
+                  </div> --}}
+                  <form>
+                      <p>SHIPPING</p>
+                      <select>
+                          <option class="text-muted">Standard-Delivery- &euro;50</option>
+                      </select>
+                  </form>
+                  <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                      <div class="col">TOTAL PRICE</div>
+                      <div class="col text-right">&euro; {{totalPrice}}</div>
+                  </div>
+                  <!-- Add the following line to display the total amount -->
+                  {{!-- <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                      <div class="col">TOTAL AMOUNT</div>
+                      <div class="col text-right">&euro; {{totalAmount}}</div>
+                  </div> --}}
+                  <a class="btnn" href="/checkout">CHECKOUT</a>
+                {{/if}}
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function removeItem(productId) {
+        // Implement the logic to remove the item from the cart
+        // You can use AJAX to send a request to the server to remove the item
+        // Update the cart UI accordingly, e.g., by refreshing the page or updating the cart via AJAX
+        alert('Item removed. Implement the logic to update the cart.');
+    }
+</script>

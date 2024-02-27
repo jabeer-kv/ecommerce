@@ -1,90 +1,118 @@
-const product = require('../models/productschema');
-const users = require('../models/userschema');
-const cart = require('../models/cartschema')
+const Cart = require("../models/cartschema");
+const User = require("../models/userschema");
+const Product = require("../models/productschema");
+const mongoose = require("mongoose");
+
 module.exports = {
-
-    addcart: async (userid,data) => {
-    // console.log(userid);
-    const user = await users.findOne({_id:userid}).lean();
-    const products = await product.findOne({_id:data});
-    console.log(user,products);
-    return {products,user}
-
+  addcart: async (userId, productId) => {
+    const result = await Cart.findOne({ owner: new mongoose.Types.ObjectId(userId) });
+    const product = await Product.findOne({ _id: productId });
+    return {result, product };
   },
-  
+
   cartcount: async (data) => {
-    const result = await cart.findOne({ user: data })
+    const result = await Cart.findOne({ owner: data });
     if (result) {
-      const count = result.items.length
-      return count
-    }
-    else {
-      return 0
-    }
-  },
-  existcart: async (data) => {
-    const exist = await cart.find(data)
-    return exist
-  },
-  proext: async (userid, productid) => {
-    const pro = await cart.findOne({ _id: productid })
-    return pro
-  },
-  finding: async (data) => {
-    const prod = await cart.findOne({ _id: data }).lean()
-    return prod
-  },
-  countitems: async (userid) => {
-    const result = await cart.findOne({ user: userid });
-    if (result) {
-      const count = result.items.reduce(
-        (total, item) => total + item.quantity,
-        0
-      );
+      const count = result.items.length;
       return count;
-    } else return 0;
+    } else {
+      return 0;
+    }
   },
-  cartupdate: async (data, userid) => {
-    const user = await cart.findOne({ user: userid });
-    const produc = data.product;
-    const quantity = data.quantity;
-    const price = data.totalprice;
-    const result = await cart.findOneAndUpdate(
-      { user: userid, "items.product": product },
-      { $set: { "items.$.quantity": quantity, "items.$.price": price } },
-      { new: true }
-    );
-    return result;
-  },
-  cartpush: async (cartItem, userid) => {
+  getCart: async (userId) => {
     try {
-      // Find the user's cart or create a new one if it doesn't exist
-      let userCart = await cart.findOne({ userid });
+      const cart = await Cart.findOne({ owner: userId })
+        .populate({
+          path: 'items.product',
+          model: 'Products', // Assuming your product model is named 'Products'
+        })
+        .lean();
 
-      console.log(userCart);
+      return cart || { items: [] };
+    } catch (error) {
+      throw new Error('Error getting cart');
+    }
+  },
 
+  cartpush: async (cartItem, userId) => {
+    try {
+      let userCart = await Cart.findOne({ owner: userId });
+  
       if (!userCart) {
-        const userCart = new Cart({ userid, items: [cartItem] });
-      await userCart.save(); // Use the 'cart' model, not 'CartModel'
-      }
-
-      // Check if the product is already in the cart
-      const existingItemIndex = userCart.items.findIndex(item => item.productid === cartItem.productid);
-
-      if (existingItemIndex !== -1) {
-        // If the product is already in the cart, update the quantity
-        userCart.items[existingItemIndex].quantity += cartItem.quantity;
+        userCart = new Cart({ owner: userId, items: [cartItem] });
+        await userCart.save();
       } else {
-        // If the product is not in the cart, add it
-        userCart.items.push(cartItem);
+        const existingItem = userCart.items.find(item => item.productid && item.productid.toString() === cartItem.productid.toString());
+  
+        if (existingItem) {
+          // If the product already exists, update the quantity
+          existingItem.quantity += cartItem.quantity;
+        } else {
+          // If the product does not exist, add it to the cart
+          userCart.items.push(cartItem);
+        }
+  
+        await userCart.save();
       }
-
-      // Save the updated cart
-      await userCart.save();
+  
+      // Calculate total price
+      // let totalPrice = 0;
+      // userCart.items.forEach(item => {
+      //   totalPrice += item.quantity * item.price;
+      // });
+  
+      // return totalPrice;
+       // Return the total price
+      //  console.log(totalPrice);
     } catch (error) {
       console.error(error);
-      throw new Error('Error adding item to cart');
+      throw new Error("Error adding item to cart");
     }
   },
+  calculateTotalPrice: async (cart) => {
+    try {
+      let totalPrice = 0;
+  
+      cart.items.forEach(item => {
+        totalPrice += 50+ item.quantity  * item.product.price;
+      });
+  
+      return totalPrice;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error calculating total price");
+    }
+  },
+ // carthelper.js
+ removeItem: async (userId, productId) => {
+  try {
+    let userCart = await Cart.findOne({ owner: userId });
 
+    if (userCart && userCart.items && userCart.items.length > 0) {
+      const existingItemIndex = userCart.items.findIndex(item => item && item.productid && item.productid.toString() === productId);
+
+      if (existingItemIndex !== -1) {
+        // Decrease the quantity by 1
+        userCart.items[existingItemIndex].quantity -= 1;
+
+        // If quantity is 0, remove the item
+        if (userCart.items[existingItemIndex].quantity <= 0) {
+          userCart.items.splice(existingItemIndex, 1);
+        }
+
+        // Save the updated cart
+        await userCart.save();
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error removing item from cart");
+  }
+},
+
+
+
+  
+  
+  
 }

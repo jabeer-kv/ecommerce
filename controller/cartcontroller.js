@@ -17,7 +17,11 @@ module.exports = {
         quantity: 1,
         product: product,
       };
+      // ...
+// const totalPrice = cart.items.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
+// ...
       console.log('Cart Items:', cartItem);
+      // console.log(tota);
 
       await Chelper.cartpush(cartItem, userid);
 
@@ -31,25 +35,31 @@ module.exports = {
   cartpage: async (req, res) => {
     try {
       const userId = req.session.userId;
-      const productid = req.params.id;
-     console.log(userId);
-      const cart = await Chelper.addcart(userId, productid);
+      const cart = await Chelper.getCart(userId);
+      const users = req.session.loggedIn
+      const totalPrice = await Chelper.calculateTotalPrice(cart);
 
-      const count = await Chelper.cartcount(cart);
-
-      const users = req.session.loggedIn;
-      // console.log('Cart:', cart);
-
-      if (cart && cart.items) {
-        // Assuming cart.items is an array of items in the cart
-        const total = cart.items.reduce((total, item) => total + (item.totalprice || 0), 0);
-        res.render('users/cart', { users, cart, total });
-      } else {
-        res.render('users/cart', { users });
-      }
+      res.render('users/cart', { cart, users,totalPrice });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Server error' });
     }
   },
-};
+  removeItem: async (req, res) => {
+    try {
+      const userId = req.session.userId;
+      const productId = req.params.id;
+      console.log(userId,productId);
+  
+      // Call the helper function to remove the item from the cart
+      await Chelper.removeItem(userId, productId);
+  
+      // Redirect or send a response as needed
+      res.redirect('/cart'); // Redirect to the cart page, adjust the URL as needed
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  },
+  
+}
