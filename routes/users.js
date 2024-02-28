@@ -5,6 +5,7 @@ var router = express.Router();
 var {signup,signin,userpage,signupdetail,logindata,logout,edit,updateuser}= require('../controller/usercontroller')
 var {checkout}=require("../controller/checkout")
 var {cartpage,addtocart,removeItem}=require('../controller/cartcontroller')
+var {wishlist}=require('../controller/wishlist')
 
 router.get('/signup',signup)
 router.post('/login',logindata)
@@ -18,6 +19,7 @@ router.get('/checkout',checkout)
 router.get("/edit",edit)
 router.post("/updateuser",updateuser)
 router.get('/removeItem/:id',removeItem);
+router.get('/wishlist',wishlist)
 
 
 
