@@ -74,7 +74,7 @@ module.exports = {
       let totalPrice = 0;
   
       cart.items.forEach(item => {
-        totalPrice += 50+ item.quantity  * item.product.price;
+        totalPrice +=  item.quantity  * item.product.price;
       });
   
       return totalPrice;
@@ -109,6 +109,27 @@ module.exports = {
     throw new Error("Error removing item from cart");
   }
 },
+ getCartByUserId: async (userId) => {
+    try {
+      const userCart = await Cart.findOne({ userid: userId });
+      console.log(userCart);
+      return userCart;
+    } catch (error) {
+      console.error("Error getting user cart", error);
+      throw error;
+    }
+  },
+  clearCart: async (userId) => {
+    try {
+      await Cart.findOneAndDelete({ userid: userId });
+    } catch (error) {
+      console.error("Error clearing user cart", error);
+      throw error;
+    }
+  },
+  calculatetotalPrice: (items) => {
+    return items.reduce((total, item) => total + (item.product.price * item.quantity), 0);
+  },
 
 
 

@@ -1,13 +1,27 @@
-const user = require("../models/userschema");
-const prodata = require("../models/productschema")
-const uhelper = require("../helpers/userhelper");
-const phelper = require("../helpers/producthelper")
 
+const Chelper = require("../helpers/carthelper");
+const Phelper = require("../helpers/producthelper");
+const Uhelper = require("../models/userschema");
+const Cart=require("../models/cartschema")
+const Product=require("../models/productschema");
 
 module.exports = {
-    checkout:async (req,res)=>{
+  checkout: async (req, res) => {
+    try {
         const users = req.session.loggedIn
-        res.render('users/checkout',{users})
-        
+      const userId = req.session.userId;
+      const cart = await Cart.findOne({ owner: userId }).populate('items.product');
+        console.log(userId);
+   
+        console.log(cart);
+      const totalPrice = Chelper.calculatetotalPrice(cart.items);
+
+      await Chelper.clearCart(userId);
+
+      res.render('users/checkout', { cart,total: totalPrice,users});
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error processing checkout' });
     }
-}
+  },
+};
