@@ -69,28 +69,22 @@
       <label class="form-check-label" for="keepMeUpdated">Keep me up to date on news</label>
     </div>
 
-    <div class="row">
-      <!-- Product display section -->
-      <div class="col-md-12 mb-3">
-        <h5 class="card-title mb-3">Products in Cart</h5>
-        <!-- Loop through each product in the cart and display it -->
-        {{#each cart.items}}
-          <div class="d-flex align-items-center mb-4">
-            <div class="me-3 position-relative">
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge-secondary">
-                {{this.quantity}}
-              </span>
-              <img src="{{this.product.image}}" style="height: 96px; width: 96px;" class="img-sm rounded border" />
-            </div>
-            <div class="">
-              <a href="#" class="nav-link">
-                {{this.product.name}} <br />
-                {{this.product.description}}
-              </a>
-              <div class="price text-muted">Total: ${{this.totalPrice}}</div>
-            </div>
-          </div>
-        {{/each}}
+     <!-- Display Cart Items -->
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <h6>Cart Items:</h6>
+        <ul class="list-group">
+          {{#each cart.items}}
+            <li class="list-group-item">
+              <span>{{this.quantity}}x</span>
+              <div class="d-flex align-items-center">
+                <img src="/uploads/{{this.product.image}}" alt="{{this.product.name}}" class="img-thumbnail mr-3" style="max-width: 50px;">
+                <div>
+              {{!-- <strong>{{this.product.name}}</strong> --}}
+              <span>${{this.product.price}} each</span>
+            </li>
+          {{/each}}
+        </ul>
       </div>
     </div>
 

@@ -10,7 +10,7 @@ module.exports = {
     try {
         const users = req.session.loggedIn
       const userId = req.session.userId;
-      const cart = await Cart.findOne({ owner: userId }).populate('items.product');
+      const cart = await Chelper.getCart(userId);
         console.log(userId);
    
         console.log(cart);
