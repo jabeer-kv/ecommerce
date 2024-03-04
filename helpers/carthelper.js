@@ -74,7 +74,7 @@ module.exports = {
       let totalPrice = 0;
   
       cart.items.forEach(item => {
-        totalPrice +=  item.quantity  * item.product.price;
+        totalPrice = 50+ item.quantity  * item.product.price;
       });
   
       return totalPrice;
@@ -130,10 +130,17 @@ module.exports = {
   calculatetotalPrice: (items) => {
     return items.reduce((total, item) => total + (item.product.price * item.quantity), 0);
   },
+  deletepro:async (user,product) => {
+    const cart =await Cart.findOne({owner: user})
+    
+
+
+  }
 
 
 
   
+
   
   
 }

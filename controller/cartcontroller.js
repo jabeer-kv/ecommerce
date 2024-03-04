@@ -46,13 +46,14 @@ module.exports = {
     }
   },
   removeItem: async (req, res) => {
+    console.log("sdfvfd");
     try {
       const userId = req.session.userId;
       const productId = req.params.id;
       console.log(userId,productId);
   
       // Call the helper function to remove the item from the cart
-      await Chelper.removeItem(userId, productId);
+      await Chelper.deletepro(userId, productId);
   
       // Redirect or send a response as needed
       res.redirect('/cart'); 
