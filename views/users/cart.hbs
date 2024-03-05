@@ -226,19 +226,12 @@
                         <div class="row">{{this.product.category}}</div>
                     </div>
                     <div class="col">
-                        <a href="#" class="quantity-btn" data-productid="{{this.product._id}}"
-                            data-action="decrement">-</a><a href="#" class="border">{{this.quantity}}</a><a href="#"
-                            class="quantity-btn" data-productid="{{this.product._id}}" data-action="increment">+</a>
+                        <a href="/cart/decrease/{{this.product._id}}" class="quantity-btn" data-productid="{{this.product._id}}" data-action="decrement">-</a>
+                            <a href="#" class="border">{{this.quantity}}</a>
+                            <a href="/cart/increase/{{this.product._id}}" class="quantity-btn" data-productid="{{this.product._id}}" data-action="increment">+</a>
 
-                        <!-- Example for incrementing quantity -->
-
-
-                        <!-- Example for decrementing quantity -->
-
-
-                        <!-- Example for removing the product -->
+                        
                     </div>
-                    <!-- ... (other parts of your template) ... -->
 
                     <div class="col">&euro; {{this.product.price}}<span class="close" >
                     <a href="/removeItem/{{this.product._id}}" style="color: #000;" data-productid="{{this.product._id}}">&#10005; Remove</a></span></div>
@@ -286,58 +279,29 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
-    $(document).ready(function () {
-        // Function to update cart on the client side
-        function updateCart(cart) {
-            // Update your cart view based on the response
-            // (e.g., update quantity and total price)
-        }
+// Example for increasing quantity
+$.ajax({
+  url: '/cart/increase/' + productId,
+  method: 'POST',
+  success: function (data) {
+    // Handle the updated cart data
+    console.log('Updated Cart:', data);
+  },
+  error: function (error) {
+    console.error('Error updating cart:', error);
+  }
+});
+// Example for decreasing quantity
+$.ajax({
+  url: '/cart/decrease/' + productId,
+  method: 'POST',
+  success: function (data) {
+    // Handle the updated cart data
+    console.log('Updated Cart:', data);
+  },
+  error: function (error) {
+    console.error('Error updating cart:', error);
+  }
+});
 
-        // Function to handle quantity update
-        function updateQuantity(action, productId) {
-            $.ajax({
-                method: 'POST',
-                url: `/cart/${action}/${productId}`,
-                success: function (data) {
-                    updateCart(data);
-                },
-                error: function (error) {
-                    console.error('Error:', error);
-                },
-            });
-        }
-
-        // Function to handle product removal
-        function removeProduct(productId) {
-            $.ajax({
-                method: 'POST',
-                url: `/cart/remove/${productId}`,
-                success: function (data) {
-                    updateCart(data);
-                },
-                error: function (error) {
-                    console.error('Error:', error);
-                },
-            });
-        }
-
-        // Attach event listener to quantity buttons
-        $('.quantity-btn').click(function (e) {
-            e.preventDefault();
-
-            const action = $(this).data('action');
-            const productId = $(this).data('productid');
-
-            updateQuantity(action, productId);
-        });
-
-        // Attach event listener to remove buttons
-        $('.remove-btn').click(function (e) {
-            e.preventDefault();
-
-            const productId = $(this).data('productid');
-
-            removeProduct(productId);
-        });
-    });
 </script>

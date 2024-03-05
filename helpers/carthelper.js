@@ -37,13 +37,13 @@ module.exports = {
   cartpush: async (cartItem, userId) => {
     try {
       let userCart = await Cart.findOne({ owner: userId });
-  
+    
       if (!userCart) {
         userCart = new Cart({ owner: userId, items: [cartItem] });
         await userCart.save();
       } else {
-        const existingItem = userCart.items.find(item => item.productid && item.productid.toString() === cartItem.productid.toString());
-  
+        const existingItem = userCart.items.find(item => item.product.equals(cartItem.productid));
+    
         if (existingItem) {
           // If the product already exists, update the quantity
           existingItem.quantity += cartItem.quantity;
@@ -51,31 +51,26 @@ module.exports = {
           // If the product does not exist, add it to the cart
           userCart.items.push(cartItem);
         }
-  
+    
         await userCart.save();
       }
-  
-      // Calculate total price
-      // let totalPrice = 0;
-      // userCart.items.forEach(item => {
-      //   totalPrice += item.quantity * item.price;
-      // });
-  
-      // return totalPrice;
-       // Return the total price
-      //  console.log(totalPrice);
     } catch (error) {
       console.error(error);
       throw new Error("Error adding item to cart");
     }
   },
+  
+  
+  
+  
   calculateTotalPrice: async (cart) => {
     try {
       let totalPrice = 0;
   
       cart.items.forEach(item => {
-        totalPrice = 50+ item.quantity  * item.product.price;
+        totalPrice += item.quantity  * item.product.price;
       });
+      totalPrice += 50;
   
       return totalPrice;
     } catch (error) {
@@ -89,7 +84,7 @@ module.exports = {
     let userCart = await Cart.findOne({ owner: userId });
 
     if (userCart && userCart.items && userCart.items.length > 0) {
-      const existingItemIndex = userCart.items.findIndex(item => item && item.productid && item.productid.toString() === productId);
+      const existingItemIndex = userCart.items.findIndex(item => item && item.product && item.product.toString() === productId);
 
       if (existingItemIndex !== -1) {
         // Decrease the quantity by 1
@@ -130,17 +125,62 @@ module.exports = {
   calculatetotalPrice: (items) => {
     return items.reduce((total, item) => total + (item.product.price * item.quantity), 0);
   },
-  deletepro:async (user,product) => {
-    const cart =await Cart.findOne({owner: user})
-    
+  removeProductFromCart: async (userId, productId) => {
+    try {
+      let userCart = await Cart.findOne({ owner: new mongoose.Types.ObjectId(userId) });
 
+      if (userCart && userCart.items && userCart.items.length > 0) {
+        const updatedItems = userCart.items.filter(item => item.product.toString() !== productId);
 
-  }
+        userCart.items = updatedItems;
+
+        await userCart.save();
+
+        return userCart;
+      }
+
+      return null; // Return null if the cart is empty or the product is not found
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error removing product from cart");
+    }
+  },
+  updateCartItem: async (userId, productid, action) => {
+    try {
+      // Find the user's cart
+      const userCart = await Cart.findOne({ owner: userId });
+
+      // Find the cart item corresponding to the productid
+      const cartItem = userCart.items.find(item => item.product === productid);
+
+      if (cartItem) {
+        // Update the cart based on the action
+        if (action === 'increase') {
+          // Increase quantity
+          cartItem.quantity += 1;
+        } else if (action === 'decrease' && cartItem.quantity > 1) {
+          // Decrease quantity, but ensure it doesn't go below 1
+          cartItem.quantity -= 1;
+        } else if (action === 'remove') {
+          // Remove the entire item from the cart
+          userCart.items = userCart.items.filter(item => item.product !== productid);
+        }
+
+        // Save the updated cart
+        await userCart.save();
+      }
+
+      // Return the updated cart
+      return userCart;
+    } catch (error) {
+      console.error('Error updating cart item:', error);
+      throw error;
+    }
+  },
 
 
 
   
 
-  
-  
+ 
 }

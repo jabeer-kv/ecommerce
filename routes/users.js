@@ -4,7 +4,7 @@ var router = express.Router();
 
 var {signup,signin,userpage,signupdetail,logindata,logout,edit,updateuser}= require('../controller/usercontroller')
 var {checkout,checkoutdata}=require("../controller/checkout")
-var {cartpage,addtocart,removeItem}=require('../controller/cartcontroller')
+var {cartpage,addtocart,removeItem,decreaseCartItem,increaseCartItem}=require('../controller/cartcontroller')
 var {wishlist,addtowishlist}=require('../controller/wishlist')
 
 router.get('/signup',signup)
@@ -22,6 +22,8 @@ router.get('/removeItem/:id',removeItem);
 router.get('/wishlist',wishlist)
 router.get("/addtowishlist/:id",addtowishlist)
 router.post("/checkoutdata",checkoutdata)
+router.post('/cart/increase/:productid',increaseCartItem);
+router.post('/cart/decrease/:productid',decreaseCartItem);
 
 
 

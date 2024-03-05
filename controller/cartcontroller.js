@@ -1,34 +1,47 @@
 const Chelper = require("../helpers/carthelper");
 const Phelper = require("../helpers/producthelper");
 const Uhelper = require("../models/userschema");
+const Cart = require("../models/cartschema");
 
 module.exports = {
   addtocart: async (req, res) => {
     try {
       const productid = req.params.id;
-      const userid = req.session.userId;
-      console.log(userid,productid);
+      const userId = req.session.userId;
       const product = await Phelper.findproductbyid(productid);
-      if (!userid) {
-        return res.status(400).json({ message: 'Invalid user ID' });
+      if (!userId) {
+        return res.status(400).json({ message: "Invalid user ID" });
       }
       const cartItem = {
-        productid: productid,
+        productid, // Convert productid to ObjectId
         quantity: 1,
-        product: product,
+        product,
       };
-      // ...
-// const totalPrice = cart.items.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
-// ...
-      console.log('Cart Items:', cartItem);
-      // console.log(tota);
+      const userCart = await Cart.findOne({ owner: userId });
 
-      await Chelper.cartpush(cartItem, userid);
+      if (!userCart) {
+        userCart = new Cart({ owner: userId, items: [cartItem] });
+        await userCart.save();
+      } else {
+        const existingItem = userCart.items.find(
+          (item) => item.productid && item.productid.equals(cartItem.productid)
+        );
 
-      res.redirect("/cart");
+        if (existingItem) {
+          // If the product already exists, update the quantity
+          existingItem.quantity += cartItem.quantity;
+        } else {
+          // If the product does not exist, add it to the cart
+          userCart.items.push(cartItem);
+        }
+
+        await userCart.save();
+      }
+
+      res.redirect("/");
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Server error' });
+      res.status(500).json({ message: "Server error" });
     }
   },
 
@@ -36,31 +49,71 @@ module.exports = {
     try {
       const userId = req.session.userId;
       const cart = await Chelper.getCart(userId);
-      const users = req.session.loggedIn
+      const users = req.session.loggedIn;
       const totalPrice = await Chelper.calculateTotalPrice(cart);
 
-      res.render('users/cart', { cart, users,totalPrice });
+      res.render("users/cart", { cart, users, totalPrice });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Server error' });
+      res.status(500).json({ message: "Server error" });
     }
   },
   removeItem: async (req, res) => {
-    console.log("sdfvfd");
     try {
       const userId = req.session.userId;
       const productId = req.params.id;
-      console.log(userId,productId);
-  
-      // Call the helper function to remove the item from the cart
-      await Chelper.deletepro(userId, productId);
-  
-      // Redirect or send a response as needed
-      res.redirect('/cart'); 
+      await Chelper. removeProductFromCart(userId, productId);
+
+      res.redirect("/cart");
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Server error' });
+      res.status(500).json({ message: "Server error" });
     }
   },
-  
-}
+  // updateCart: async (req, res) => {
+  //   try {
+  //     const productid = req.params.productid;
+  //     const action = req.params.action;
+  //     const userid= req.session.userId
+
+  //     // Add logic to update the cart based on the action
+  //     const updatedCart = await Chelper.updateCartItem( userid,productid, action);
+
+  //     // res.json({ success: true, quantity: updatedCart.items.find(item => item.productid === productid).quantity });
+  //     res.redirect("/cart")
+  //   } catch (error) {
+  //     console.error('Error updating cart:', error);
+  //     res.status(500).json({ success: false, message: 'Server error' });
+  //   }
+  // },
+  increaseCartItem: async (req, res) => {
+    try {
+      const userId = req.session.userId;
+      const productid = req.params.productid;
+      console.log({userId, productid});
+      // Update cart using helper method
+      const updatedCart = await Chelper.updateCartItem(userId, productid, 'increase');
+
+      // Send updated cart as JSON response
+      res.json(updatedCart);
+    } catch (error) {
+      console.error('Error increasing cart item:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  },
+  decreaseCartItem: async (req, res) => {
+    try {
+      const userId = req.session.userId;
+      const productid = req.params.productid;
+
+      // Update cart using helper method
+      const updatedCart = await Chelper.updateCartItem(userId, productid, 'decrease');
+
+      // Send updated cart as JSON response
+      res.json(updatedCart);
+    } catch (error) {
+      console.error('Error decreasing cart item:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  },
+};
