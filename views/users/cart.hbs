@@ -277,31 +277,40 @@
         </div>
     </div>
 </div>
+<!-- Add this script at the end of your Handlebars template -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
-// Example for increasing quantity
-$.ajax({
-  url: '/cart/increase/' + productId,
-  method: 'POST',
-  success: function (data) {
-    // Handle the updated cart data
-    console.log('Updated Cart:', data);
-  },
-  error: function (error) {
-    console.error('Error updating cart:', error);
-  }
-});
-// Example for decreasing quantity
-$.ajax({
-  url: '/cart/decrease/' + productId,
-  method: 'POST',
-  success: function (data) {
-    // Handle the updated cart data
-    console.log('Updated Cart:', data);
-  },
-  error: function (error) {
-    console.error('Error updating cart:', error);
-  }
-});
+  // Function to handle both increase and decrease actions
+  function updateQuantity(productId, action) {
+    $.ajax({
+      url: `/cart/${action}/${productId}`,
+      method: 'POST',
+      success: function (data) {
+        // Handle the updated cart data
+        // Assuming your cart items are displayed in a certain format
+        // You may need to adjust this based on your actual HTML structure
+        const updatedQuantity = data.items.find(item => item.productid === productId).quantity;
 
+        // Update the displayed quantity without reloading the page
+        $(`.quantity[data-productid="${productId}"]`).text(updatedQuantity);
+      },
+      error: function (error) {
+        console.error('Error updating cart:', error);
+      }
+    });
+  }
+
+  // Example for increasing quantity
+  $(document).on('click', '.quantity-btn[data-action="increment"]', function (e) {
+    e.preventDefault();
+    const productId = $(this).data('productid');
+    updateQuantity(productId, 'increase');
+  });
+
+  // Example for decreasing quantity
+  $(document).on('click', '.quantity-btn[data-action="decrement"]', function (e) {
+    e.preventDefault();
+    const productId = $(this).data('productid');
+    updateQuantity(productId, 'decrease');
+  });
 </script>

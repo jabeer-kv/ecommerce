@@ -70,22 +70,7 @@ module.exports = {
       res.status(500).json({ message: "Server error" });
     }
   },
-  // updateCart: async (req, res) => {
-  //   try {
-  //     const productid = req.params.productid;
-  //     const action = req.params.action;
-  //     const userid= req.session.userId
-
-  //     // Add logic to update the cart based on the action
-  //     const updatedCart = await Chelper.updateCartItem( userid,productid, action);
-
-  //     // res.json({ success: true, quantity: updatedCart.items.find(item => item.productid === productid).quantity });
-  //     res.redirect("/cart")
-  //   } catch (error) {
-  //     console.error('Error updating cart:', error);
-  //     res.status(500).json({ success: false, message: 'Server error' });
-  //   }
-  // },
+ 
   increaseCartItem: async (req, res) => {
     try {
       const userId = req.session.userId;

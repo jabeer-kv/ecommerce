@@ -149,10 +149,10 @@ module.exports = {
     try {
       // Find the user's cart
       const userCart = await Cart.findOne({ owner: userId });
-
+      console.log(userCart);
       // Find the cart item corresponding to the productid
       const cartItem = userCart.items.find(item => item.product === productid);
-
+      // console.log(cartItem);
       if (cartItem) {
         // Update the cart based on the action
         if (action === 'increase') {
@@ -169,7 +169,7 @@ module.exports = {
         // Save the updated cart
         await userCart.save();
       }
-
+     
       // Return the updated cart
       return userCart;
     } catch (error) {

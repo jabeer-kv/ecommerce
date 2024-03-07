@@ -15,7 +15,7 @@ module.exports = {
                 productid: productid,
                 product: product
             }
-            console.log("wish items:", wish);
+            console.log("wish item:", wish);
             await Whelper.wishpush(wish, userid);
             res.redirect("/wishlist")
 
@@ -28,11 +28,11 @@ module.exports = {
         try {
             const userid = req.session.userId;
             const users = req.session.loggedIn
-            const wishlist = await Whelper.getwish(userid)
-            console.log(userid, wishlist);
+            const wishlists = await Whelper.getwish(userid)
+            console.log(userid, wishlists);
 
 
-            res.render('users/wishlist', { wishlist, users })
+            res.render('users/wishlist', { wishlist:wishlists.items, users })
         }
         catch (err) {
             console.log(err);
