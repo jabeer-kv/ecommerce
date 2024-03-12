@@ -185,8 +185,10 @@
         font-size: 56 rem;
         /* Adjust the size as needed */
         margin-left: auto;
-    },
-    .remove-btn{
+    }
+
+    ,
+    .remove-btn {
         font-size: rem;
         margin-left: 1rem;
         color: #000;
@@ -226,15 +228,18 @@
                         <div class="row">{{this.product.category}}</div>
                     </div>
                     <div class="col">
-                        <a href="/cart/decrease/{{this.product._id}}" class="quantity-btn" data-productid="{{this.product._id}}" data-action="decrement">-</a>
-                            <a href="#" class="border">{{this.quantity}}</a>
-                            <a href="/cart/increase/{{this.product._id}}" class="quantity-btn" data-productid="{{this.product._id}}" data-action="increment">+</a>
+                        <a href="/cart/decrease/{{this.product._id}}" class="quantity-btn"
+                            data-productid="{{this.product._id}}" data-action="decrement">-</a>
+                        <a href="#" class="border">{{this.quantity}}</a>
+                        <a href="/cart/increase/{{this.product._id}}" class="quantity-btn"
+                            data-productid="{{this.product._id}}" data-action="increment">+</a>
 
-                        
+
                     </div>
 
-                    <div class="col">&euro; {{this.product.price}}<span class="close" >
-                    <a href="/removeItem/{{this.product._id}}" style="color: #000;" data-productid="{{this.product._id}}">&#10005; Remove</a></span></div>
+                    <div class="col">&euro; {{this.product.price}}<span class="close">
+                            <a href="/removeItem/{{this.product._id}}" style="color: #000;"
+                                data-productid="{{this.product._id}}">&#10005; Remove</a></span></div>
                 </div>
                 {{/each}}
                 {{else}}
@@ -280,37 +285,38 @@
 <!-- Add this script at the end of your Handlebars template -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
-  // Function to handle both increase and decrease actions
-  function updateQuantity(productId, action) {
-    $.ajax({
-      url: `/cart/${action}/${productId}`,
-      method: 'POST',
-      success: function (data) {
-        // Handle the updated cart data
-        // Assuming your cart items are displayed in a certain format
-        // You may need to adjust this based on your actual HTML structure
-        const updatedQuantity = data.items.find(item => item.productid === productId).quantity;
+    // Function to handle both increase and decrease actions
+    function updateQuantity(productId, action) {
+        $.ajax({
+            url: `/cart/${action}/${productId}`,
+            method: 'POST',
+            success: function (data) {
+                console.log(data)
+                // Handle the updated cart data
+                // Assuming your cart items are displayed in a certain format
+                // You may need to adjust this based on your actual HTML structure
+                const updatedQuantity = data.cart.items.find(item => item.productid === productId).quantity;
+                
+                // Update the displayed quantity without reloading the page
+                $(`.quantity[data-productid="${productId}"]`).text(updatedQuantity);
+            },
+            error: function (error) {
+                console.error('Error updating cart:', error);
+            }
+        });
+    }
 
-        // Update the displayed quantity without reloading the page
-        $(`.quantity[data-productid="${productId}"]`).text(updatedQuantity);
-      },
-      error: function (error) {
-        console.error('Error updating cart:', error);
-      }
+    // Example for increasing quantity
+    $(document).on('click', '.quantity-btn[data-action="increment"]', function (e) {
+        e.preventDefault();
+        const productId = $(this).data('productid');
+        updateQuantity(productId, 'increase');
     });
-  }
 
-  // Example for increasing quantity
-  $(document).on('click', '.quantity-btn[data-action="increment"]', function (e) {
-    e.preventDefault();
-    const productId = $(this).data('productid');
-    updateQuantity(productId, 'increase');
-  });
-
-  // Example for decreasing quantity
-  $(document).on('click', '.quantity-btn[data-action="decrement"]', function (e) {
-    e.preventDefault();
-    const productId = $(this).data('productid');
-    updateQuantity(productId, 'decrease');
-  });
+    // Example for decreasing quantity
+    $(document).on('click', '.quantity-btn[data-action="decrement"]', function (e) {
+        e.preventDefault();
+        const productId = $(this).data('productid');
+        updateQuantity(productId, 'decrease');
+    });
 </script>

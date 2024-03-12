@@ -80,6 +80,7 @@ module.exports = {
       const updatedCart = await Chelper.updateCartItem(userId, productid, 'increase');
 
       // Send updated cart as JSON response
+      
       res.json(updatedCart);
     } catch (error) {
       console.error('Error increasing cart item:', error);
@@ -93,7 +94,7 @@ module.exports = {
 
       // Update cart using helper method
       const updatedCart = await Chelper.updateCartItem(userId, productid, 'decrease');
-
+      console.log("ITEm",updatedCart);
       // Send updated cart as JSON response
       res.json(updatedCart);
     } catch (error) {
