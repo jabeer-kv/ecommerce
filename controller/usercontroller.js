@@ -24,14 +24,20 @@ module.exports = {
     const user = await uhelper.finding(email)
     console.log(user)
     if (!user) {
-      res.redirect("/signin")
+      res.render("users/signin", { error: "Invalid email." })
       console.log("error")
     }
 
     else {
       
       const pass = user.password
+      console.log("just ", pass);
       const orgpassword = await bcrypt.compare(password, pass)
+      console.log("org",orgpassword);
+      if(!orgpassword){
+        console.log("Invalid password");
+        return  res.render("users/signin", { error: "Invalid  password." });
+      }
       req.session.userId = user._id
       req.session.name=user.name
       console.log(req.session.userId)

@@ -13,7 +13,7 @@ module.exports={
         return insert
     },
     calculatetotalPrice: (items) => {
-        return items.reduce((total, item) => total + (item.product.price * item.quantity), 0);
+        return items.reduce((total, item) => 50 + total + (item.product.price * item.quantity), 0);
       },
 
 }

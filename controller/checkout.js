@@ -24,13 +24,12 @@ module.exports = {
     }
   },
   checkoutdata: async (req,res)=>{
-    console.log("jdfidniv");
     const users=req.session.userId
     const user=await Checkout.finduser(users)
     console.log(user);
     const data={
-      firstname:req.body.firstName,
-      lastname:req.body.lastName,
+      firstname:req.body.firstname,
+      lastname:req.body.lastname,
       phone:req.body.phone,
       email:req.body.email,
       landmark:req.body.landmark,

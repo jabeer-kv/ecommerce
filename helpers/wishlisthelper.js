@@ -6,7 +6,7 @@ module.exports={
     try{
 
     let userwish= await wishlist.findOne({owner:userid})
-    console.log(userwish);
+    console.log("wishlist",userwish);
         if(!userwish){
             userwish=new wishlist({owner:userid,items:[item]})
             await userwish.save();
@@ -30,7 +30,7 @@ module.exports={
 },
 getwish: async (userid) => {
     try {
-        const userwish = await wishlist.findOne({ owner: userid });
+        const userwish = await wishlist.findOne({ owner: userid }).lean();
         console.log(userwish);
         return userwish;
       } catch (error) {
