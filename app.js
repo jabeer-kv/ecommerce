@@ -8,6 +8,8 @@ var mongoose=require('mongoose');
 var connect=require('./config/dbconnect')
 var exphbs = require('express-handlebars')
 var session = require('express-session');
+var razorpay=require('razorpay')
+
 
 
 var indexRouter = require('./routes/index');
@@ -15,6 +17,11 @@ var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin')
 
 var app = express();
+//razorpay instance
+const razorpayInstance = new razorpay({
+  key_id:process.env.KEY_ID ,
+  key_secret:process.env.KEY_SECRET 
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

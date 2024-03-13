@@ -38,22 +38,9 @@ module.exports = {
     try {
       let userCart = await Cart.findOne({ owner: userId });
 
-      if (!userCart) {
-        userCart = new Cart({ owner: userId, items: [cartItem] });
-        await userCart.save();
-      } else {
-        const existingItem = userCart.items.find(item => item.product.equals(cartItem.productid));
-
-        if (existingItem) {
-          // If the product already exists, update the quantity
-          existingItem.quantity += cartItem.quantity;
-        } else {
-          // If the product does not exist, add it to the cart
-          userCart.items.push(cartItem);
-        }
+     
 
         await userCart.save();
-      }
     } catch (error) {
       console.error(error);
       throw new Error("Error adding item to cart");
@@ -122,9 +109,7 @@ module.exports = {
       throw error;
     }
   },
-  calculatetotalPrice: (items) => {
-    return items.reduce((total, item) => total + (item.product.price * item.quantity), 0);
-  },
+ 
   removeProductFromCart: async (userId, productId) => {
     try {
       let userCart = await Cart.findOne({ owner: new mongoose.Types.ObjectId(userId) });

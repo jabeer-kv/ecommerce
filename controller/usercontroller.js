@@ -3,6 +3,7 @@ const prodata = require("../models/productschema")
 const uhelper = require("../helpers/userhelper");
 const phelper = require("../helpers/producthelper")
 const bcrypt = require("bcrypt");
+const Chelper=require("../helpers/carthelper")
 
 
 module.exports = {
@@ -79,7 +80,10 @@ module.exports = {
   userpage: async (req, res) => {
     const product = await phelper.showpro(prodata)
     const users = req.session.loggedIn
-    res.render("users/index", { product, users });
+    const userId = req.session.userId
+    const cart = await Chelper.getCart(userId);    
+    const totalPrice = uhelper.calculatetotalPrice(cart.items);
+    res.render("users/index", { product, users,totalPrice});
   },
   logout: (req, res) => {
     req.session.destroy()

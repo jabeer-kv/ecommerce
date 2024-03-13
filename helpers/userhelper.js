@@ -14,6 +14,9 @@ module.exports={
         return ans
         
     },
+    calculatetotalPrice: (items) => {
+        return items.reduce((total, item) => total + (item.product.price * item.quantity), 0);
+      },
     finduser:async(data)=>{
         const ans = await user.findOne({ _id:data }).lean();
         return ans

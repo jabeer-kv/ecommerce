@@ -13,31 +13,34 @@ module.exports = {
       const userId = req.session.userId;
       const cart = await Chelper.getCart(userId);
        
-      const totalPrice = Chelper.calculatetotalPrice(cart.items);
+      const totalPrice = Checkout.calculatetotalPrice(cart.items);
 
       await Chelper.clearCart(userId);
 
-      res.render('users/checkout', { cart,total: totalPrice,users});
+      res.render('users/checkout', { cart,totalPrice,users});
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Error processing checkout' });
     }
   },
   checkoutdata: async (req,res)=>{
+    console.log("jdfidniv");
     const users=req.session.userId
     const user=await Checkout.finduser(users)
     console.log(user);
     const data={
-      name:req.body.name,
+      firstname:req.body.firstName,
+      lastname:req.body.lastName,
+      phone:req.body.phone,
       email:req.body.email,
+      landmark:req.body.landmark,
+      pincode:req.body.pincode,
       address:req.body.address,
-      city:req.body.city,
-      state:req.body.state,
-      zip:req.body.zip,
-      phone:req.body.phone
+      city:req.body.city
+      
     }
     console.log(data);
-    await Checkout.update(data,users)
-    res.redirect("/")
+    await Checkout.update(data)
+    res.redirect("/cart");
   }
 };

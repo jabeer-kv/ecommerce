@@ -7,6 +7,7 @@ var {checkout,checkoutdata}=require("../controller/checkout")
 var {cartpage,addtocart,removeItem,decreaseCartItem,increaseCartItem}=require('../controller/cartcontroller')
 var {wishlist,addtowishlist}=require('../controller/wishlist')
 var isAuth=require("../middleware/isAuth")
+var {payment}=require('../controller/paymentcontroller')
 
 router.get('/signup',signup)
 router.post('/login',logindata)
@@ -25,6 +26,7 @@ router.get("/addtowishlist/:id",addtowishlist)
 router.post("/checkoutdata",checkoutdata)
 router.post('/cart/increase/:productid',increaseCartItem);
 router.post('/cart/decrease/:productid',decreaseCartItem);
+router.post("/payment",payment);
 
 
 

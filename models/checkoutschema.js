@@ -33,14 +33,7 @@ const checkoutSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  keepMeUpdated: {
-    type: Boolean,
-    default: false,
-  },
-  saveAddress: {
-    type: Boolean,
-    default: false,
-  },
+  
   
 });
 

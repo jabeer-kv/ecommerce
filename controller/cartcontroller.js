@@ -17,15 +17,17 @@ module.exports = {
         quantity: 1,
         product,
       };
-      const userCart = await Cart.findOne({ owner: userId });
+      let userCart = await Cart.findOne({ owner: userId });
 
       if (!userCart) {
         userCart = new Cart({ owner: userId, items: [cartItem] });
         await userCart.save();
       } else {
+      
         const existingItem = userCart.items.find(
           (item) => item.productid && item.productid.equals(cartItem.productid)
         );
+
 
         if (existingItem) {
           // If the product already exists, update the quantity
