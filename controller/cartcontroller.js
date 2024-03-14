@@ -23,11 +23,9 @@ module.exports = {
         userCart = new Cart({ owner: userId, items: [cartItem] });
         await userCart.save();
       } else {
-      
         const existingItem = userCart.items.find(
           (item) => item.productid && item.productid.equals(cartItem.productid)
         );
-
 
         if (existingItem) {
           // If the product already exists, update the quantity
@@ -39,6 +37,12 @@ module.exports = {
 
         await userCart.save();
       }
+
+      // // Calculate and save the total price
+      // const totalPrice = await Chelper.calculateTotalPrice(userCart);
+      // userCart.totalPrice = totalPrice;
+      // console.log(userCart.totalPrice);
+      // await userCart.save();
 
       res.redirect("/");
     } catch (error) {
@@ -81,7 +85,6 @@ module.exports = {
       // Update cart using helper method
       const updatedCart = await Chelper.updateCartItem(userId, productid, 'increase');
 
-      // Send updated cart as JSON response
       
       res.json(updatedCart);
     } catch (error) {

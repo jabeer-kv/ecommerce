@@ -33,7 +33,31 @@ const checkoutSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  orderdate:{
+    type:Date,
+    default:()=> new Date().toLocaleString("en-US",{timezone:"UTC"})
+  },
+  cart:[
+    {
+      productId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product'
+      },
+      quantity:{
+        type: Number,
+        required: true,
+        
+      },
+      price:{
+        type: Number,
+        required: true,
+      }
+    }
+  ],
   
+  
+  
+
   
 });
 

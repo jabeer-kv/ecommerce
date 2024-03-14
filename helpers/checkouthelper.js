@@ -1,5 +1,6 @@
 const user=require("../models/userschema")
 const checkout=require("../models/checkoutschema")
+const cart=require("../models/cartschema")
 
 module.exports={
     finduser:async (data)=>{
@@ -14,6 +15,21 @@ module.exports={
     },
     calculatetotalPrice: (items) => {
         return items.reduce((total, item) => 50 + total + (item.product.price * item.quantity), 0);
+      },
+      getCart: async (userId) => {
+        try {
+          const Cart = await cart.findOne({ owner: userId })
+            .populate({
+              path: 'items.product',
+              model: 'Products', // Assuming your product model is named 'Products'
+            })
+            .lean();
+            console.log(Cart);
+    
+          return Cart || { items: [] };
+        } catch (error) {
+          throw new Error('Error getting cart');
+        }
       },
 
 }

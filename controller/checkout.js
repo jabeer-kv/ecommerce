@@ -2,7 +2,6 @@
 const Chelper = require("../helpers/carthelper");
 const Phelper = require("../helpers/producthelper");
 const Uhelper = require("../models/userschema");
-const Cart=require("../models/cartschema")
 const Product=require("../models/productschema");
 const Checkout=require("../helpers/checkouthelper")
 
@@ -26,7 +25,9 @@ module.exports = {
   checkoutdata: async (req,res)=>{
     const users=req.session.userId
     const user=await Checkout.finduser(users)
-    console.log(user);
+    const Cart=await Checkout.getCart(users)
+    console.log(Cart);
+   
     const data={
       firstname:req.body.firstname,
       lastname:req.body.lastname,
@@ -35,11 +36,15 @@ module.exports = {
       landmark:req.body.landmark,
       pincode:req.body.pincode,
       address:req.body.address,
-      city:req.body.city
+      city:req.body.city,
+      orderdate: new Date(),
+      // cart: Cart.items,
+      // price:Cart.items[0].totalprice
+
       
     }
     console.log(data);
     await Checkout.update(data)
-    res.redirect("/cart");
+    res.redirect("/");
   }
 };

@@ -39,5 +39,10 @@ module.exports = {
             res.status(500).json({ message: 'Server error' });
         }
 
+    },
+    removeformwish: async (req,res)=>{
+        const userid=req.session.userId
+        const productid=req.params.id
+        await Whelper.remove(userid,productid)
     }
 }

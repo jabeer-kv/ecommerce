@@ -29,19 +29,17 @@
             </div>
           </div>
           <div class="col-xl-3 col-md-3 col-sm-5">
-            {{#if this.product.inStock}}
-            <h6 class="text-success">In stock</h6>
-            {{else}}
-            <h6 class="text-danger">Out of stock</h6>
-            {{/if}}
+            
             <div class="mt-4">
-              <a href="#" class="btn btn-light border px-2 pt-2 add-to-wishlist-button"
+              <a href="/removewish/{{this.product._id}}" class="btn btn-light border px-2 pt-2 add-to-wishlist-button"
                 data-product-id="{{this.product._id}}"><i class="fa-solid fa-trash fa-bounce fa-xl"
                   style="color: #000000;"></i></a>
             </div>
-            <div class="mt-4">
-              <a href="#" onclick="addToCart(event)">Add to cart</a>
-            </div>
+            <div class="input-group product-qty">
+
+                <a href="/addpro/{{this._id}}" class="btn btn-primary mr-2">Add to Cart</a>
+                
+              </div>
           </div>
         </div>
       </div>
@@ -61,49 +59,7 @@
 
 {{> user_footer}}
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-  function addToCart(event) {
-    event.preventDefault(); // Prevent the default behavior of the link
 
-    // Show SweetAlert popup
-    Swal.fire({
-      title: 'Added to cart!',
-      icon: 'success',
-      showConfirmButton: false,
-      timer: 1500 // Automatically close after 1.5 seconds
-    });
-  }
-</script>
 
 <script src="https://kit.fontawesome.com/d79b7af11d.js" crossorigin="anonymous"></script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
-  $(document).ready(function () {
-    $('.add-to-wishlist-button').click(function (event) {
-      event.preventDefault();
-      const productId = $(this).data('product-id');
-      const icon = $(this).find('.fa-heart');
-
-      $.ajax({
-        url: '/users/wishlistdelete',
-        method: 'POST',
-        data: {
-          productId: productId,
-        },
-        success: function (response) {
-          console.log(response)
-
-          alert('Product removed from wishlist');
-          location.reload(); // Reloading the page to reflect changes
-
-        },
-        error: function (error) {
-          console.error('Error updating wishlist:', error);
-        }
-      });
-    });
-  });
-</script>
