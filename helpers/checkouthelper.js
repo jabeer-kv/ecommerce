@@ -14,10 +14,11 @@ module.exports={
         return insert
     },
     calculatetotalPrice: (items) => {
-        return items.reduce((total, item) => 50 + total + (item.product.price * item.quantity), 0);
+        return items.reduce((total, item) => total + (item.product.price * item.quantity), 0);
       },
       getCart: async (userId) => {
         try {
+          
           const Cart = await cart.findOne({ owner: userId })
             .populate({
               path: 'items.product',
@@ -25,8 +26,7 @@ module.exports={
             })
             .lean();
             console.log(Cart);
-    
-          return Cart || { items: [] };
+          return Cart|| { items: [] };
         } catch (error) {
           throw new Error('Error getting cart');
         }

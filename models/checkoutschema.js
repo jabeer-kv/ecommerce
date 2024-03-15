@@ -1,6 +1,15 @@
 const mongoose = require('mongoose');
 
 const checkoutSchema = new mongoose.Schema({
+  userid: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+    required: true,
+  },
+  orderId: {
+    type: String,
+    required: true,
+  },
   firstname: {
     type: String,
     required: true,
@@ -41,19 +50,24 @@ const checkoutSchema = new mongoose.Schema({
     {
       productId:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product'
+        ref: 'Products'
       },
       quantity:{
         type: Number,
         required: true,
         
-      },
-      price:{
-        type: Number,
-        required: true,
       }
+    
     }
   ],
+  price:{
+    type:Number,
+  },
+  status: {
+    type: String,
+    default: "pending",
+    // required: true,
+  },
   
   
   
