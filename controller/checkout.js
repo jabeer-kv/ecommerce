@@ -27,6 +27,7 @@ module.exports = {
   checkoutdata: async (req,res)=>{
     const users=req.session.userId
     const user=await Checkout.finduser(users)
+    const timestamp = Date.now()
     const Cart=await Checkout.getCart(users)
     const totalPrice = Checkout.calculatetotalPrice(Cart.items);
     const randomNum = Math.floor(Math.random() * 1000);
@@ -55,13 +56,26 @@ module.exports = {
     console.log(data);
     var order = await razorpay.payment(orderid,totalPrice);
     await Checkout.update(data)
-    res.redirect("/");
+    res.json(order)
   },
   verifypayment: async (req,res)=>{
-    const userId=req.session.userId
-    const paymentId=req.body["payment[razorpay_payment_id]"]
-    const orderId=req.body["order[razorpay_order_id]"]
-    const signature=req.body["payment[razorpay_signature]"]
-   
+    const userid = req.session.userId;
+    const paymentId = req.body["payment[razorpay_payment_id]"];
+    const orderId = req.body["payment[razorpay_order_id]"];
+    const signature = req.body["payment[razorpay_signature]"];
+    const orderID = req.body.orderID;
+        //algorithm for checking the payid+orderid=signature
+        const hash = crypto.createHmac("sha256", process.env.key_secret);
+        hash.update(orderId + "|" + paymentId);
+        const digest = hash.digest("hex");
+
+        if (digest === signature) {
+          console.log("payment successful");
+          orderH.updatestatus(orderID, paymentId);
+          res.json("success");
+        }
+        else{
+          res.json("failed")
+        }
   }
 };

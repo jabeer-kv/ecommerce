@@ -61,7 +61,7 @@
         </div>
         <div class="d-flex justify-content-end">
           <a href="/cart" class="btn btn-light border me-2">Cancel</a>
-          <a value="submit" class="btn btn-success shadow-0 border">placeorder</a>
+          <button value="submit" class="btn btn-success shadow-0 border">placeorder</button>
         </div>
       </form>
 
@@ -118,11 +118,13 @@
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
   {{> user_footer}}
-  <script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+ <script>
     $("#placeOrderBtn").submit((e) => {
       e.preventDefault();
-      var paymentMethod = $("input[name='paymentOption']:checked").val();
-      console.log(paymentMethod)
+     
       const price = $("#totalprice").text();
       function( 'razorpay') {
         var formData = $("#placeOrderBtn").serialize();
@@ -143,54 +145,40 @@
 
 
     });
-
     function razorpay(order) {
       var options = {
-        "key": "rzp_test_PTrEWw4jwtJptK", // Enter the Key ID generated from the Dashboard
-        "amount": order.amount * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-        "currency": "INR",
-        "name": "food mart",
-        "description": "Test Transaction",
-        "image": "",
-        "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-        "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
-        "handler": function (response) {
-          verify(response, order.receipt);
-        },
-        "prefill": {
-          "name": $("#name").val(),
-          "address": $("#address").val(),
-          "contact": $("#contact").val(),
-        },
-        "notes": {
-          "address": "Razorpay Corporate Office"
-        },
-        "theme": {
-          "color": "#FFFF00"
-        }
-      };
-      var rzp1 = new Razorpay(options);
-      rzp1.open();
+    "key": "rzp_test_7j7rSGDBECW5bp", // Enter the Key ID generated from the Dashboard
+    "amount": totalamount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Acme Corp",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": "order_IluGWxBm9U8zJ8", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){
+        alert(response.razorpay_payment_id);
+        alert(response.razorpay_order_id);
+        alert(response.razorpay_signature)
+    },
+    "prefill": {
+        "name": "Gaurav Kumar",
+        "email": "gaurav.kumar@example.com",
+        "contact": "9000090000"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
     }
-    {{!-- function verify(payment, orderID) {
-      $.ajax({
-        url: '/users/verifypayment',
-        method: 'POST',
-        data: {
-          payment,
-          orderID
-        },
-        success: (response) => {
-          if (response == "success") {
-            location.href = "/users/success" //+ orderID;
-          }
-          else {
-            location.href = "/users/fail";
-          }
-        },
-      })
-    }  --}}
-  </script>
+};
+var rzp1 = new Razorpay(options);
+
+
+    rzp1.open();
+   
+}
+    
+</script>
 
 </body>
 

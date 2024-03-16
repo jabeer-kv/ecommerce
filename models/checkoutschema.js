@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const checkoutSchema = new mongoose.Schema({
-  userid: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
     required: true,

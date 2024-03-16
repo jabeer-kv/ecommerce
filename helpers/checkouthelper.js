@@ -14,7 +14,7 @@ module.exports={
         return insert
     },
     calculatetotalPrice: (items) => {
-        return items.reduce((total, item) => total + (item.product.price * item.quantity), 0);
+        return items.reduce((total, item) => total + (item.product.price * item.quantity), 50);
       },
       getCart: async (userId) => {
         try {

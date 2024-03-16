@@ -57,7 +57,6 @@ module.exports = {
       cart.items.forEach(item => {
         totalPrice += item.quantity * item.product.price;
       });
-      totalPrice += 50;
 
       return totalPrice;
     } catch (error) {
