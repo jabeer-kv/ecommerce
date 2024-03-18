@@ -3,11 +3,10 @@ var router = express.Router();
 
 
 var {signup,signin,userpage,signupdetail,logindata,logout,edit,updateuser}= require('../controller/usercontroller')
-var {checkout,checkoutdata}=require("../controller/checkout")
+var {checkout,checkoutdata,verifypayment,success}=require("../controller/checkout")
 var {cartpage,addtocart,removeItem,decreaseCartItem,increaseCartItem}=require('../controller/cartcontroller')
 var {wishlist,addtowishlist,removeformwish}=require('../controller/wishlist')
 var isAuth=require("../middleware/isAuth")
-var {payment}=require('../controller/paymentcontroller')
 
 router.get('/signup',signup)
 router.post('/login',logindata)
@@ -27,7 +26,8 @@ router.get('/removewish/:id',removeformwish)
 router.post("/checkoutdata",checkoutdata)
 router.post('/cart/increase/:productid',increaseCartItem);
 router.post('/cart/decrease/:productid',decreaseCartItem);
-router.post("/payment",payment);
+router.post("/verifypayment",verifypayment)
+router.get("/success",success)
 
 
 

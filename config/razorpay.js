@@ -8,10 +8,10 @@ var instance = new Razorpay({
 
 module.exports = {
   //create payment instance
-  payment: (orderID, amount) => {
+  payment: (amount,orderID) => {
     return new Promise((resolve, reject) => {
       var options = {
-        amount: amount * 50,
+        amount: amount * 100,
         currency: "INR",
         receipt: orderID,
       };

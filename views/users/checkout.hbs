@@ -61,7 +61,7 @@
         </div>
         <div class="d-flex justify-content-end">
           <a href="/cart" class="btn btn-light border me-2">Cancel</a>
-          <button value="submit" class="btn btn-success shadow-0 border">placeorder</button>
+          <button type="submit" class="btn btn-success shadow-0 border">placeorder</button>
         </div>
       </form>
 
@@ -115,22 +115,21 @@
   <script type="text/javascript" src="js/mdb.min.js"></script>
   <!-- Custom scripts -->
   <script type="text/javascript" src="public/js/checkout.js"></script>
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
   {{> user_footer}}
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-<script>
+
  <script>
     $("#placeOrderBtn").submit((e) => {
       e.preventDefault();
      
       const price = $("#totalprice").text();
-      function( 'razorpay') {
         var formData = $("#placeOrderBtn").serialize();
         formData += '&price=' + price;
         $.ajax({
-          url: '/users/checkoutdata',
+          url: '/checkoutdata',
           method: 'POST',
           data: formData,
           success: (res) => {
@@ -140,24 +139,20 @@
             console.error("AJAX Error:", status, error);
           }
         });
-      }
-
-
-
     });
     function razorpay(order) {
+      console.log("hello")
       var options = {
     "key": "rzp_test_7j7rSGDBECW5bp", // Enter the Key ID generated from the Dashboard
-    "amount": totalamount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "amount":order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
     "currency": "INR",
     "name": "Acme Corp",
     "description": "Test Transaction",
     "image": "https://example.com/your_logo",
-    "order_id": "order_IluGWxBm9U8zJ8", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "order_id":order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
     "handler": function (response){
-        alert(response.razorpay_payment_id);
-        alert(response.razorpay_order_id);
-        alert(response.razorpay_signature)
+       
+          verify(response, order.receipt);
     },
     "prefill": {
         "name": "Gaurav Kumar",
@@ -177,6 +172,24 @@ var rzp1 = new Razorpay(options);
     rzp1.open();
    
 }
+ function verify(payment, orderID) {
+      $.ajax({
+        url: '/verifypayment',
+        method: 'POST',
+        data: {
+          payment,
+          orderID
+        },
+        success: (response) => {
+          if (response == "success") {
+            location.href = "/success" //+ orderID;
+          }
+          else {
+            location.href = "/fail";
+          }
+        },
+      })
+      }
     
 </script>
 
