@@ -7,7 +7,12 @@ module.exports = {
         return ans
     },
     showpro: async (data) => {
-        var ans = await product.find().lean()
+        var ans = await product.find().lean().limit(8)
+        console.log(ans)
+        return ans
+    },
+    shopro: async (data) => {
+        var ans = await product.find().lean().limit(8)
         console.log(ans)
         return ans
     },

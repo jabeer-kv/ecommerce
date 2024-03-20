@@ -17,7 +17,7 @@ module.exports = {
         quantity: 1,
         product,
       };
-      let userCart = await Cart.findOne({ owner: userId });
+     let userCart = await Cart.findOne({ owner: userId });
 
       if (!userCart) {
         userCart = new Cart({ owner: userId, items: [cartItem] });
@@ -28,9 +28,9 @@ module.exports = {
         );
 
         if (existingItem) {
-          // If the product already exists, update the quantity
-          existingItem.quantity += cartItem.quantity;
-        } else {
+          // If the product already exists, redirect to cart page or send a message
+          return res.redirect("/cart"); // Assuming you have a route for displaying the cart
+        }  else {
           // If the product does not exist, add it to the cart
           userCart.items.push(cartItem);
         }

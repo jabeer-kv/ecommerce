@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const Chelper=require("../helpers/carthelper")
 
 
+
 module.exports = {
   signin: (req, res) => {
     if (req.session.loggedIn) {
@@ -114,6 +115,18 @@ module.exports = {
     console.log(data);
     // const user=await uhelper.updateuser(users,data)
     res.render("users/useredit",{data,users})
+  },
+  search:async(req,res)=>{
+    const search = req.body.search
+    console.log(search);
+  const data= await prodata.find({ name: { $regex: `^${search}`, $options: 'i' } });
+  console.log(data);
+  res.render('/', { users:data });
+  },
+  view:async(req,res)=>{
+    const users=req.session.userId
+    const product = await phelper.shopro(prodata)
+    res.render("users/view", { product:product,users})
   }
-  
+
 }

@@ -34,7 +34,7 @@ module.exports = {
   updatestatus: async (orderID, paymentId) => {
     console.log(orderID,paymentId)
     await checkout.findOneAndUpdate(
-      { orderid: orderID },
+      { orderId: orderID },
       {
         $set: { status: "placed", paymentid: paymentId },
       },
