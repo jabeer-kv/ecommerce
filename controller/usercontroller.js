@@ -117,11 +117,11 @@ module.exports = {
     res.render("users/useredit",{data,users})
   },
   search:async(req,res)=>{
-    const search = req.body.search
+    const search =req.body.query
     console.log(search);
-  const data= await prodata.find({ name: { $regex: `^${search}`, $options: 'i' } });
-  console.log(data);
-  res.render('/', { users:data });
+  const products= await prodata.find({ name: { $regex: `^${search}`, $options: 'i' } }).lean();
+  console.log(products);
+  res.render("users/search",{search:products})
   },
   view:async(req,res)=>{
     const users=req.session.userId
