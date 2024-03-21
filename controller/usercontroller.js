@@ -117,16 +117,23 @@ module.exports = {
     res.render("users/useredit",{data,users})
   },
   search:async(req,res)=>{
+    const users=req.session.userId
     const search =req.body.query
     console.log(search);
   const products= await prodata.find({ name: { $regex: `^${search}`, $options: 'i' } }).lean();
   console.log(products);
-  res.render("users/search",{search:products})
+  res.render("users/search",{search:products,users})
   },
   view:async(req,res)=>{
     const users=req.session.userId
     const product = await phelper.shopro(prodata)
     res.render("users/view", { product:product,users})
+  },
+  showproduct:async(req,res)=>{
+    const users=req.session.userId
+    const productid = req.params.id;
+    const product = await phelper.findproductbyid(productid);
+    res.render("users/productshow",{products:product,users})
   }
 
 }
