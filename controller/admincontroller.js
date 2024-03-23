@@ -82,6 +82,7 @@ module.exports = {
         req.session.destroy()
         res.render("users/signin");
     },
+    
 
 
 }

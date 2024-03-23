@@ -4,6 +4,7 @@ const Phelper = require("../helpers/producthelper");
 const Uhelper = require("../models/userschema");
 const Product = require("../models/productschema");
 const Checkout = require("../helpers/checkouthelper")
+const coupon=require("../helpers/couponhelper");
 const razorpay = require("../config/razorpay")
 const crypto = require("crypto");
 
@@ -17,8 +18,9 @@ module.exports = {
       const totalPrice = Checkout.calculatetotalPrice(cart.items);
 
      
+      const coupons = await coupon.findcoupon()
 
-      res.render('users/checkout', { cart, totalPrice, users });
+      res.render('users/checkout', { cart, totalPrice,coupons,users });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Error processing checkout' });
