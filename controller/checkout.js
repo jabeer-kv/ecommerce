@@ -19,8 +19,9 @@ module.exports = {
 
      
       const coupons = await coupon.findcoupon()
+     
 
-      res.render('users/checkout', { cart, totalPrice,coupons,users });
+      res.render('users/checkout', { cart, totalPrice,coupon:coupons,users });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Error processing checkout' });

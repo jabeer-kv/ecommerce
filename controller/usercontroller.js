@@ -134,6 +134,26 @@ module.exports = {
     const productid = req.params.id;
     const product = await phelper.findproductbyid(productid);
     res.render("users/productshow",{products:product,users})
-  }
+  },
+  fruits: async (req, res) => {
+  
+    const users = req.session.loggedIn;
+    const products = await prodata.find({ category: "fruits" }).lean();
+    console.log("hello",products);
+    res.render("users/vegitable", { vegitable:products, users });
+  },
+  veg: async (req, res) => {
+    const users = req.session.loggedIn;
+    const product = await prodata.find({ category: "vegitables" }).lean();
+    console.log("hello",product);
+    res.render("users/vegitable", { vegitable:product, users });
+  },
+  drinks: async (req, res) => {
+  
+    const users = req.session.loggedIn;
+    const pro = await prodata.find({ category: "drinks" }).lean();
+    console.log("hello",pro);
+    res.render("users/vegitable", { drink:pro, users });
+  },
 
 }

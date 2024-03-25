@@ -66,49 +66,53 @@
       </form>
 
     </div>
-      <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="applyCoupon">
-        <label class="form-check-label" for="applyCoupon">Apply Coupon</label>
-      </div>
-      
-      <!-- Coupon options (hidden by default) -->
-      <div id="couponOptions" style="display: none;">
-        <select class="form-select mb-3" id="couponSelect">
-          <option selected disabled>Select Coupon</option>
-          <!-- Dynamic options will be added here -->
-        </select>
-      </div>
+    
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="applyCoupon">
+      <label class="form-check-label" for="applyCoupon">Apply Coupon</label>
 
+    <!-- Coupon options (hidden by default) -->
 
-
-
-    <!-- Display Cart Items -->
-    <div class="row mt-4">
-      <div class="col-md-12">
-        <h6>Cart Items:</h6>
-        <ul class="list-group">
-          {{#each cart.items}}
-          <li class="list-group-item">
-            <span>{{this.quantity}}x</span>
-            <div class="d-flex align-items-center">
-              <img src="/uploads/{{this.product.image}}" alt="{{this.product.name}}" class="img-thumbnail mr-3"
-                style="max-width: 50px;">
-              <div>
-                {{!-- <strong>{{this.product.name}}</strong> --}}
-                <span>${{this.product.price}} each</span>
-          </li>
-          {{/each}}
-          <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-            <div class="col">Standard-Delivery-</div>
-            <div class="col text-right">&euro; 50 </div>
-          </div>
-          <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-            <div class="col">TOTAL PRICE</div>
-            <div class="col text-right" id="totalprice">&euro; {{totalPrice}}</div>
-          </div>
-        </ul>
-      </div>
+    {{#each coupon}}
+    <div class="coupon">
+      <h3>{{this.couponName}}</h3>
+      <p>Discount: {{this.amount}}</p>
+      <p>Expiration Date: {{this.expiryDate}}</p>
+      <!-- Add more properties here as needed -->
     </div>
+    {{/each}}
+    </div>
+
+
+
+
+  <!-- Display Cart Items -->
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <h6>Cart Items:</h6>
+      <ul class="list-group">
+        {{#each cart.items}}
+        <li class="list-group-item">
+          <span>{{this.quantity}}x</span>
+          <div class="d-flex align-items-center">
+            <img src="/uploads/{{this.product.image}}" alt="{{this.product.name}}" class="img-thumbnail mr-3"
+              style="max-width: 50px;">
+            <div>
+              {{!-- <strong>{{this.product.name}}</strong> --}}
+              <span>${{this.product.price}} each</span>
+        </li>
+        {{/each}}
+        <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+          <div class="col">Standard-Delivery-</div>
+          <div class="col text-right">&euro; 50 </div>
+        </div>
+        <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+          <div class="col">TOTAL PRICE</div>
+          <div class="col text-right" id="totalprice">&euro; {{totalPrice}}</div>
+        </div>
+      </ul>
+    </div>
+  </div>
 
 
 
@@ -133,58 +137,58 @@
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 
- <script>
+  <script>
     $("#placeOrderBtn").submit((e) => {
       e.preventDefault();
-     
+
       const price = $("#totalprice").text();
-        var formData = $("#placeOrderBtn").serialize();
-        formData += '&price=' + price;
-        $.ajax({
-          url: '/checkoutdata',
-          method: 'POST',
-          data: formData,
-          success: (res) => {
-            razorpay(res)
-          },
-          error: (xhr, status, error) => {
-            console.error("AJAX Error:", status, error);
-          }
-        });
+      var formData = $("#placeOrderBtn").serialize();
+      formData += '&price=' + price;
+      $.ajax({
+        url: '/checkoutdata',
+        method: 'POST',
+        data: formData,
+        success: (res) => {
+          razorpay(res)
+        },
+        error: (xhr, status, error) => {
+          console.error("AJAX Error:", status, error);
+        }
+      });
     });
     function razorpay(order) {
       console.log("hello")
       var options = {
-    "key": "rzp_test_7j7rSGDBECW5bp", // Enter the Key ID generated from the Dashboard
-    "amount":order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-    "currency": "INR",
-    "name": "Acme Corp",
-    "description": "Test Transaction",
-    "image": "https://example.com/your_logo",
-    "order_id":order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-    "handler": function (response){
-       
+        "key": "rzp_test_7j7rSGDBECW5bp", // Enter the Key ID generated from the Dashboard
+        "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "Acme Corp",
+        "description": "Test Transaction",
+        "image": "https://example.com/your_logo",
+        "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": function (response) {
+
           verify(response, order.receipt);
-    },
-    "prefill": {
-        "name": "Gaurav Kumar",
-        "email": "gaurav.kumar@example.com",
-        "contact": "9000090000"
-    },
-    "notes": {
-        "address": "Razorpay Corporate Office"
-    },
-    "theme": {
-        "color": "#3399cc"
+        },
+        "prefill": {
+          "name": "Gaurav Kumar",
+          "email": "gaurav.kumar@example.com",
+          "contact": "9000090000"
+        },
+        "notes": {
+          "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+          "color": "#3399cc"
+        }
+      };
+      var rzp1 = new Razorpay(options);
+
+
+      rzp1.open();
+
     }
-};
-var rzp1 = new Razorpay(options);
-
-
-    rzp1.open();
-   
-}
- function verify(payment, orderID) {
+    function verify(payment, orderID) {
       $.ajax({
         url: '/verifypayment',
         method: 'POST',
@@ -201,9 +205,9 @@ var rzp1 = new Razorpay(options);
           }
         },
       })
-      }
-    
-</script>
+    }
+
+  </script>
 
 </body>
 

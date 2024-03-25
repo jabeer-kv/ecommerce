@@ -1,0 +1,40 @@
+{{> user_header}}
+<section class="py-5">
+    <div class="container-fluid">
+      <div class="row">
+        {{#each drink}}
+        <div class="col-md-3">
+          <div class="
+          product-item">
+            <a href="/addtowishlist/{{this._id}}" class="btn-wishlist">
+              <svg width="24" height="24">
+                <use xlink:href="#heart"></use>
+              </svg>
+            </a>
+            <figure>
+              <a href="single-product.html" title="Product Title">
+                <img src="../uploads/{{this.image}}" width="284px" height="233px" class="tab-image">
+              </a>
+            </figure>
+            <h3>{{this.name}}</h3>
+            <span class="qty">{{this.quantity}} Unit</span>
+
+            <span class="price"> ₹ {{this.price}}</span>
+            <div class="d-flex align-items-center justify-content-between">
+              <div class="input-group product-qty">
+
+                <a href="/addpro/{{this._id}}" class="btn btn-primary mr-2">Add to Cart</a>
+                
+              </div>
+
+              <div class="d-flex">
+
+              </div>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </section>
+{{>user_footer}}
